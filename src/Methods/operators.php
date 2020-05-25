@@ -3,6 +3,9 @@
 use LazyCollection\Helpers;
 use LazyCollection\Stream;
 
+/**********************************************************************************************************************\
+ * Mappers
+\**********************************************************************************************************************/
 Stream::addMethod("map", function(callable $mapper): Stream{
 	/**
 	 * @var Stream $this
@@ -22,10 +25,12 @@ Stream::addMethod("peek", function(callable $cb): Stream{
 		foreach ($parent as $key => $value) {
 			$cb($value, $key);
 
-			if($this->associative)
+			if($this->associative) {
 				yield $key => $value;
-			else
+			}
+			else {
 				yield $value;
+			}
 		}
 	});
 });
@@ -61,6 +66,11 @@ Stream::addMethod("mapFlattened", function(callable $mapper): Stream{
 	return $this->flatten()->map($mapper);
 });
 
+
+
+/**********************************************************************************************************************\
+ * Filters
+\**********************************************************************************************************************/
 Stream::addMethod("filter", function(callable $predicate): Stream{
 	/**
 	 * @var Stream $this
@@ -83,21 +93,49 @@ Stream::addMethod("filter", function(callable $predicate): Stream{
 	 return $this->pipe($gen);
 });
 
-Stream::addMethod("filterNot", function(callable $predicate){
-	return $this->filter(static function($value, $key) use ($predicate){
-		return !$predicate($value, $key);
-	});
+Stream::addMethod("filterNot", function(callable $predicate): Stream{
+	return $this->filter(Helpers::negate($predicate));
 });
 
-Stream::addMethod("filterOut", function(callable $predicate){
+Stream::addMethod("filterOut", function(callable $predicate): Stream{
 	return $this->filterNot($predicate);
 });
 
-Stream::addMethod("instancesOf", function(string $class){
+Stream::addMethod("notNull", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
-	return $this->filter(static function($value) use ($class) {
-		return $value instanceof $class;
+	return $this->filter([Helpers::class, "notNull"]);
+});
+
+Stream::addMethod("falsy", function(): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->filter([Helpers::class, "falsy"]);
+});
+
+Stream::addMethod("truthy", function(): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->filter([Helpers::class, "truthy"]);
+});
+
+Stream::addMethod("instanceOf", function(string $class): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->filter(static function($value) use ($class): bool {
+		return Helpers::instanceOf($value, $class);
+	});
+});
+
+Stream::addMethod("notInstanceOf", function(string $class){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->filterNot(static function($value) use ($class) {
+		return Helpers::instanceOf($value, $class);
 	});
 });

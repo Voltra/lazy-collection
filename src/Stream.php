@@ -12,7 +12,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @package LazyCollection
  *
  *
- * @method Stream from(iterable $it) Make a stream from an iterable
+ * @method Stream fromIterable(iterable $it) Make a stream from an iterable
  *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
  * @method Stream peek(callable $cb) Execute a callback on each value
@@ -23,7 +23,40 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method Stream filter(callable $predicate) Filters only elements satisfying the given predicate
  * @method Stream filterNot(callable $predicate) Filters only elements that do not satisfy the given predicate
  * @method Stream filterOut(callable $predicate) Alias for filterNot
- * @method Stream instancesOf(string $className) Keep only the instances of the given class
+ * @method Stream notNull() Filters only elements non null
+ * @method Stream falsy() Filters only elements that are considered falsy
+ * @method Stream truthy() Filters only elements that are considered truthy (i.e. not falsy)
+ * @method Stream instanceOf(string $className) Keep only the instances of the given class
+ * @method Stream notInstanceOf(string $className) Keep only the items that are not instances of the given class
+ *
+ * @method Stream takeWhile(callable $predicate) Takes elements while the predicate is satisfied
+ * @method Stream takeUntil(callable $predicate) Takes elements until the predicate is satisfied
+ * @method Stream take(int $maxAmount) Takes at most the first $maxAmount elements
+ * @method Stream skipWhile(callable $predicate) Skips elements while the predicate is satisfied
+ * @method Stream skipUntil(callable $predicate) Skips elements until the predicate is satisfied
+ * @method Stream skip(int $maxAmount) Skips at most the first $maxAmount elements
+ * @method Stream subStream(int $startIndex, int $endIndex) Skips $startIndex elements and takes $endIndex-$startIndex elements
+ *
+ * @method Stream chunks(int $size) Split the stream in a stream of chunks (which size is at most $size)
+ *
+ * @method void forEach(callable $cb) Execute a callback on each element
+ * @method mixed reduce(callable $reducer, mixed $init = null) Reduces the stream to a single value via the reducer (if no init is provided then it will be the first element)
+ * @method int count(callable $predicate = [Helpers::class, "yes"]) Counts the amount of elements that satisfy the predicate (if no predicate is provided, will count the amount of elements)
+ *
+ * @method array toArray() Consume the stream and put the values in an array
+ * @method string toJSON() Consume the stream and transforms it into JSON
+ *
+ * @method bool all(callable $predicate) Determine whether or not all the elements satisfy the predicate
+ * @method bool none(callable $predicate) Determine whether or not none of the elements satisfy the predicate
+ * @method bool any(callable $predicate) Determine whether or any of the elements satisfy the predicate
+ * @method bool notAll(callable $predicate) Determine whether or any of the elements does not satisfy the predicate
+ *
+ * @method mixed first(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate (or the very first if no predicate is provided)
+ * @method mixed firstOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate or the default element if none
+ * @method mixed firstOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate or null if none
+ * @method mixed last(callable $predicate = [Helpers::class, "yes"]) Get the last element that match the predicate (or the very first if no predicate is provided)
+ * @method mixed lastOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the last element that match the predicate or the default element if none
+ * @method mixed lastOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element last match the predicate or null if none
  */
 class Stream implements IteratorAggregate {
 	/******************************************************************************************************************\
@@ -40,12 +73,12 @@ class Stream implements IteratorAggregate {
 	protected $associative;
 
 	/**
-	 * @var callable[] $methods The registered methods
+	 * @var Closure[] $methods The registered methods
 	 */
 	protected static $methods = [];
 
 	/**
-	 * @var callable[] $factories The registered stream factories
+	 * @var Closure[] $factories The registered stream factories
 	 */
 	protected static $factories = [];
 
@@ -83,8 +116,8 @@ class Stream implements IteratorAggregate {
 	 */
 	public function __call(string $name, array $args) {
 		if(static::hasMethod($name)){
-			$method = static::$methods[$name];
-			return Closure::fromCallable($method)->call($this, ...$args);
+			$closure = static::$methods[$name];
+			return $closure->call($this, ...$args);
 		}
 
 		throw new InvalidMethodException("Method $name does not exist");
@@ -100,8 +133,8 @@ class Stream implements IteratorAggregate {
 	 */
 	public static function __callStatic(string $name, array $args): self {
 		if(static::hasFactory($name)){
-			$factory = static::$factories[$name];
-			return Closure::fromCallable($factory)
+			$closure = static::$factories[$name];
+			return Closure::fromCallable($closure)
 					->bindTo(null, static::class)
 					->call(null, ...$args);
 		}
@@ -145,7 +178,7 @@ class Stream implements IteratorAggregate {
 			throw new InvalidMethodException("Method $name already exists");
 		}
 
-		static::$methods[$name] = $method;
+		static::$methods[$name] = Closure::fromCallable($method);
 	}
 
 	/**
@@ -160,7 +193,7 @@ class Stream implements IteratorAggregate {
 			throw new InvalidFactoryException("Factory $name already exists");
 		}
 
-		static::$factories[$name] = $factory;
+		static::$factories[$name] = Closure::fromCallable($factory);
 	}
 
 

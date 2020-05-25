@@ -33,4 +33,34 @@ abstract class Helpers {
 
 		return $ret;
 	}
+
+	public static function toJSON(array $arr){
+		return json_encode($arr, true);
+	}
+
+	public static function notNull($value): bool{
+		return $value !== null;
+	}
+
+	public static function falsy($value): bool{
+		return !$value;
+	}
+
+	public static function truthy($value): bool{
+		return !static::falsy($value);
+	}
+
+	public static function instanceOf($obj, string $class): bool{
+		return $obj instanceof $class;
+	}
+
+	public static function yes($_): bool{
+		return true;
+	}
+
+	public static function negate(callable $predicate): callable{
+		return function(...$args) use($predicate): bool{
+			return !$predicate(...$args);
+		};
+	}
 }

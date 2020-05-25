@@ -3,20 +3,14 @@
 use LazyCollection\Helpers;
 use LazyCollection\Stream;
 
-/**
- * @class Stream
- * @method static Stream Stream::from(iterable $it)
- */
-Stream::addFactory("from", function(iterable $it){
+Stream::addFactory("fromIterable", function(iterable $it){
 	/**
 	 * @var $this Stream
 	 * @static Stream
 	 */
 
 	$gen = (static function() use($it){
-		foreach ($it as $key => $value) {
-			yield $key => $value;
-		}
+		yield from $it;
 	})();
 
 	$associative = Helpers::isAssoc(Helpers::arrayFromIterable($it));
