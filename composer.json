@@ -14,5 +14,15 @@
         "phpunit/phpunit": "^7.5",
         "php-mock/php-mock": "^2.2",
         "php-mock/php-mock-phpunit": "^2.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "LazyCollection\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LazyCollection\\Tests\\": "tests"
+        }
     }
 }
