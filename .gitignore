@@ -1,0 +1,10 @@
+.env
+.brackets.json
+composer.lock
+.idea/
+.vscode/
+tmp/
+logs/
+*.log
+node_modules/
+vendor/

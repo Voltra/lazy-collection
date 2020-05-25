@@ -1,0 +1,19 @@
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.pupunit.de/7.5/phpunit.xsd"
+    stopOnError="true"
+    stopOnFailure="true"
+    stopOnIncomplete="true"
+    stopOnSkipped="true"
+    stopOnRisky="true"
+    bootstrap="vendor/autoload.php"
+    cacheTokens="false"
+    colors="true"
+    verbose="true"
+>
+    <testsuites>
+        <!-- <testsuite name="dir">
+            <directory>tests/dir</directory>
+        </testsuite> -->
+    </testsuites>
+</phpunit>
