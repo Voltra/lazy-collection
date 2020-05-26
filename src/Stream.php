@@ -41,6 +41,14 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method Stream skipUntil(callable $predicate) Skips elements until the predicate is satisfied
  * @method Stream skip(int $maxAmount) Skips at most the first $maxAmount elements
  * @method Stream subStream(int $startIndex, int $endIndex) Skips $startIndex elements and takes $endIndex-$startIndex elements
+ * @method Stream uniqueBy(callable $idExtractor) Remove elements/duplicates that have the same id by the $idExtractor
+ * @method Stream unique() Remove duplicates
+ *
+ * @method Stream sortBy(callable $idExtractor) Sorts the elements by comparing the extracted IDs (ascending order)
+ * @method Stream sort() Sorts the elements in ascending order
+ * @method Stream sortByDescending(callable $idExtractor) Sorts the elements by comparing the extracted IDs (descending order)
+ * @method Stream sortDescending() Sorts the elements in descending order
+ * @method Stream sortWith(callable $comparator) Sorts the elements using the given comparator
  *
  * @method Stream chunks(int $size) Split the stream in a stream of chunks (which size is at most $size)
  *
@@ -83,6 +91,9 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method mixed|null minBy(callable $mapper) Get the min value determined by comparing mapped values
  * @method mixed|null min() Get the min value
  * @method mixed|null minWith(callable $comparator) Get the min value using a custom comparator
+ * @method mixed single(callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or throws
+ * @method mixed singleOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or get the default
+ * @method mixed singleOrNull(callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or null
  */
 class Stream implements IteratorAggregate {
 	/******************************************************************************************************************\

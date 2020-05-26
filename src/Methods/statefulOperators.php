@@ -34,7 +34,7 @@ Stream::addMethod("take", function(int $maxAmount): Stream{
 	 * @var Stream $this
 	 */
 	$count = 0;
-	return $this->takeWhile(static function($value, $key) use (&$count, $maxAmount): bool{
+	return $this->takeWhile(static function() use (&$count, $maxAmount): bool{
 		return $count++ < $maxAmount;
 	});
 });
@@ -68,7 +68,7 @@ Stream::addMethod("skip", function(int $maxAmount): Stream{
 	 * @var Stream $this
 	 */
 	$count = 0;
-	return $this->skipWhile(function($value) use(&$count, $maxAmount){
+	return $this->skipWhile(static function() use(&$count, $maxAmount){
 		return $count++ < $maxAmount;
 	});
 });
@@ -79,6 +79,64 @@ Stream::addMethod("subStream", function(int $startIndex, int $endIndex): Stream{
 	 */
 	$take = $endIndex - $startIndex;
 	return $this->skip($startIndex)->take($take);
+});
+
+Stream::addMethod("uniqueBy", function(callable $idExtractor): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$arr = $this->toArray();
+	return Stream::fromIterable(Helpers::uniqueBy($idExtractor, $arr));
+});
+
+Stream::addMethod("unique", function(): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->uniqueBy([Helpers::class, "identity"]);
+});
+
+
+
+/**********************************************************************************************************************\
+ * Arrangers
+\**********************************************************************************************************************/
+Stream::addMethod("sortBy", function(callable $idExtractor): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$arr = $this->toArray();
+	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_ASC));
+});
+
+Stream::addMethod("sort", function(): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->sortBy([Helpers::class, "identity"]);
+});
+
+Stream::addMethod("sortByDescending", function(callable $idExtractor): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$arr = $this->toArray();
+	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_DESC));
+});
+
+Stream::addMethod("sortDescending", function(): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->sortByDescending([Helpers::class, "identity"]);
+});
+
+Stream::addMethod("sortWith", function(callable $comparator): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$arr = $this->toArray();
+	return Stream::fromIterable(Helpers::sortWith($comparator, $arr));
 });
 
 

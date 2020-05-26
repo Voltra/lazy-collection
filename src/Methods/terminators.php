@@ -426,3 +426,34 @@ Stream::addMethod("minWith", function(callable $comparator){
 		return $comparator($elem, $acc) < 0 ? $elem : $acc;
 	});
 });
+
+Stream::addMethod("single", function(callable $predicate = [Helpers::class, "yes"]){
+	/**
+	 * @var Stream $this
+	 */
+	$arr = $this->filter($predicate)->toArray();
+
+	if(count($arr) === 1) {
+		return $arr[0];
+	}
+
+	throw new NotFoundException("Couldn't find single element");
+});
+
+Stream::addMethod("singleOr", function($default, callable $predicate = [Helpers::class, "yes"]){
+	/**
+	 * @var Stream $this
+	 */
+	try{
+		return $this->single($predicate);
+	}catch(NotFoundException $e){
+		return $default;
+	}
+});
+
+Stream::addMethod("singleOrNull", function(callable $predicate = [Helpers::class, "yes"]){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->singleOr(null, $predicate);
+});

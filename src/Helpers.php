@@ -83,4 +83,31 @@ abstract class Helpers {
 	public static function cmp($lhs, $rhs): int{
 		return $lhs <=> $rhs;
 	}
+
+	public static function uniqueBy(callable $key, array $arr): array {
+		$mapped = array_map($key, $arr);
+		$unique = array_unique($mapped, SORT_REGULAR);
+		return array_map(static function($key, $value) use($arr){
+			return $arr[$key];
+		}, array_keys($unique), array_values($unique));
+	}
+
+	public static function sortBy(callable $keyExtractor, array $arr, int $flags = SORT_REGULAR): array{
+		$tmp = array_merge([], $arr);
+		$mapped = array_map($keyExtractor, $tmp);
+		$sorted = static::doSort($mapped, $flags);
+		return array_map(static function($key, $value) use($arr){
+			return $arr[$key];
+		}, array_keys($sorted), array_values($sorted));
+	}
+
+	public static function doSort($array, int $flags = SORT_REGULAR){
+		asort($array, $flags);
+		return $array;
+	}
+
+	public static function sortWith(callable $comparator, array $arr): array{
+		usort($arr, $comparator);
+		return $arr;
+	}
 }
