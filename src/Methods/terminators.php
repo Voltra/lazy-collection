@@ -73,6 +73,115 @@ Stream::addMethod("toJSON", function(): string{
 	return Helpers::toJSON($this->toArray());
 });
 
+Stream::addMethod("associateBy", function(callable $valueFactory = [Helpers::class, "identity"], callable $keyFactory = [Helpers::class, "identity"]): array{
+	/**
+	 * @var Stream $this
+	 */
+	$ret = [];
+	foreach ($this as $key => $value) {
+		$newKey = $keyFactory($value, $key);
+		$newValue = $valueFactory($value, $key);
+		$ret[$newKey] = $newValue;
+	}
+	return $ret;
+});
+
+Stream::addMethod("associate", function(callable $factory): array {
+	/**
+	 * @var Stream $this
+	 */
+	$ret = [];
+	foreach ($this as $key => $value){
+		[$newKey, $newValue] = $factory($value, $key);
+		$ret[$newKey] = $newValue;
+	}
+	return $ret;
+});
+
+Stream::addMethod("groupBy", function(callable $keyExtractor): array{
+	/**
+	 * @var Stream $this
+	 */
+	$ret = [];
+	foreach ($this as $key => $value){
+		$groupKey = $keyExtractor($value, $key);
+		$ret[$groupKey][] = $value;
+	}
+	return $ret;
+});
+
+Stream::addMethod("join", function(array $userOptions = []): string{
+	/**
+	 * @var Stream $this
+	 */
+	$options = Helpers::merge([
+		"prefix" => "[",
+		"separator" => ", ",
+		"suffix" => "]",
+		"stringifier" => [Helpers::class, "identity"],
+		"strlen" => "strlen",
+		"substr" => "substr"
+	], $userOptions);
+
+	$ret = $options["prefix"];
+	$count = 0;
+
+	foreach ($this as $key => $value){
+		$str = $options["stringifier"]($value, $key);
+		$ret .= $str . $options["separator"];
+		$count++;
+	}
+
+	if($count > 0){
+		$len = $options["strlen"]($options["separator"]);
+		$ret = $options["substr"]($ret, 0, -$len);
+	}
+
+	$ret .= $options["suffix"];
+	return $ret;
+});
+
+Stream::addMethod("partition", function(callable $predicate): array{
+	/**
+	 * @var Stream $this
+	 */
+	$ret = [[], []];
+	foreach($this as $key => $value){
+		$index = $predicate($value, $key) ? 0 : 1;
+		$ret[$index][] = $value;
+	}
+	return $ret;
+});
+
+Stream::addMethod("sum", function(){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem){
+		return $acc + $elem;
+	});
+});
+
+Stream::addMethod("sumBy", function(callable $mapper){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->map($mapper)->sum();
+});
+
+Stream::addMethod("average", function(){
+	/**
+	 * @var Stream $this
+	 */
+	$i = 0;
+	return $this->reduce(static function($acc, $elem) use(&$i){
+		//cf. http://www.heikohoffmann.de/htmlthesis/node134.html
+		// For iterative average
+		$i++;
+		return $elem + (1/$i) * ($acc - $elem);
+	});
+});
+
 
 
 /**********************************************************************************************************************\
@@ -184,4 +293,136 @@ Stream::addMethod("lastOrNull", function (callable $predicate = [Helpers::class,
 	 * @var Stream $this
 	 */
 	return $this->lastOr(null, $predicate);
+});
+
+Stream::addMethod("atIndex", function(int $i){
+	/**
+	 * @var Stream $this
+	 */
+	$cur = 0;
+	return $this->first(static function($value) use(&$cur, $i): bool{
+		return $cur++ === $i;
+	});
+});
+
+Stream::addMethod("atIndexOr", function(int $i, $default){
+	/**
+	 * @var Stream $this
+	 */
+	try{
+		return $this->atIndex($i);
+	}catch(NotFoundException $e){
+		return $default;
+	}
+});
+
+Stream::addMethod("atIndexOrNull", function (int $i){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->atIndexOr($i, null);
+});
+
+Stream::addMethod("indexOfFirst", function(callable $predicate): int{
+	/**
+	 * @var Stream $this
+	 */
+	$cur = 0;
+	foreach ($this as $key => $value){
+		if($predicate($value, $key)) {
+			return $cur;
+		}
+
+		$cur++;
+	}
+
+	return -1;
+});
+
+Stream::addMethod("indexOf", function($needle): int{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->indexOfFirst(static function ($value) use($needle){
+		return $value === $needle;
+	});
+});
+
+Stream::addMethod("indexOfLast", function(callable $predicate): int{
+	/**
+	 * @var Stream $this
+	 */
+	$cur = 0;
+	$ret = -1;
+	foreach ($this as $key => $value){
+		if($predicate($value, $key)) {
+			$ret = $cur;
+		}
+		$cur++;
+	}
+
+	return $ret;
+});
+
+Stream::addMethod("lastIndexOf", function($needle): int{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->indexOfLast(static function($value) use($needle){
+		return $value === $needle;
+	});
+});
+
+Stream::addMethod("maxBy", function(callable $mapper){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem) use($mapper) {
+		$value = $mapper($elem);
+		$vacc = $mapper($acc);
+		return Helpers::cmp($value, $vacc) > 0 ? $elem : $acc;
+	});
+});
+
+Stream::addMethod("max", function(){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->maxBy([Helpers::class, "identity"]);
+});
+
+Stream::addMethod("maxWith", function(callable $comparator){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem) use($comparator){
+		return $comparator($elem, $acc) > 0 ? $elem : $acc;
+	});
+});
+
+Stream::addMethod("minBy", function(callable $mapper){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem) use($mapper) {
+		$value = $mapper($elem);
+		$vacc = $mapper($acc);
+		return Helpers::cmp($value, $vacc) < 0 ? $elem : $acc;
+	});
+});
+
+Stream::addMethod("min", function(){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->minBy([Helpers::class, "identity"]);
+});
+
+Stream::addMethod("minWith", function(callable $comparator){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem) use($comparator){
+		return $comparator($elem, $acc) < 0 ? $elem : $acc;
+	});
 });

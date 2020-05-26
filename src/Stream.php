@@ -14,11 +14,13 @@ use LazyCollection\Exceptions\InvalidMethodException;
  *
  * @method Stream fromIterable(iterable $it) Make a stream from an iterable
  *
+ *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
  * @method Stream peek(callable $cb) Execute a callback on each value
  * @method Stream flatten() Flattens a stream of iterable to a stream of data (noop for associative)
  * @method Stream flatMap(callable $mapper) Maps a stream to a stream of iterable then flattens its (associative will only map)
  * @method Stream mapFlattened(callable $mapper) Flattens the stream then maps it (associative will only map)
+ * @method Stream reverse() Reverses the order of the stream (eager, works only for finite streams)
  *
  * @method Stream filter(callable $predicate) Filters only elements satisfying the given predicate
  * @method Stream filterNot(callable $predicate) Filters only elements that do not satisfy the given predicate
@@ -28,6 +30,9 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method Stream truthy() Filters only elements that are considered truthy (i.e. not falsy)
  * @method Stream instanceOf(string $className) Keep only the instances of the given class
  * @method Stream notInstanceOf(string $className) Keep only the items that are not instances of the given class
+ *
+ * @method Stream then(iterable $it) Streams the elements of the stream then the elements of the iterable
+ *
  *
  * @method Stream takeWhile(callable $predicate) Takes elements while the predicate is satisfied
  * @method Stream takeUntil(callable $predicate) Takes elements until the predicate is satisfied
@@ -39,24 +44,45 @@ use LazyCollection\Exceptions\InvalidMethodException;
  *
  * @method Stream chunks(int $size) Split the stream in a stream of chunks (which size is at most $size)
  *
+ *
  * @method void forEach(callable $cb) Execute a callback on each element
- * @method mixed reduce(callable $reducer, mixed $init = null) Reduces the stream to a single value via the reducer (if no init is provided then it will be the first element)
+ * @method mixed|null reduce(callable $reducer, mixed $init = null) Reduces the stream to a single value via the reducer (if no init is provided then it will be the first element)
  * @method int count(callable $predicate = [Helpers::class, "yes"]) Counts the amount of elements that satisfy the predicate (if no predicate is provided, will count the amount of elements)
  *
  * @method array toArray() Consume the stream and put the values in an array
  * @method string toJSON() Consume the stream and transforms it into JSON
+ * @method array associateBy(callable $valueFactory = [Helpers::class, "identity"], callable $keyFactory = [Helpers::class, "identity"]) Create an associative array by generating key and value separately
+ * @method array associate(callable $factory) Create an associative array by generating a [$key, $value] pair
+ * @method array groupBy(callable $keyExtractor) Group an array of associative arrays into an associative array of arrays
+ * @method string join(array $options) Join to string using prefix, separator, suffix, stringifier, strlen and substr options
+ * @method array partition(callable $predicate) Partitions the values based on the predicate (true is left, false is right)
+ * @method number|null sum() Computes the sum of all the elements
+ * @method number|null sumBy(callable $mapper) Computes the sum of all the mapped elements
+ * @method number|null average() Computes the average of all the elements
  *
  * @method bool all(callable $predicate) Determine whether or not all the elements satisfy the predicate
  * @method bool none(callable $predicate) Determine whether or not none of the elements satisfy the predicate
  * @method bool any(callable $predicate) Determine whether or any of the elements satisfy the predicate
  * @method bool notAll(callable $predicate) Determine whether or any of the elements does not satisfy the predicate
  *
- * @method mixed first(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate (or the very first if no predicate is provided)
+ * @method mixed first(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate (or the very first if no predicate is provided) or throw if none
  * @method mixed firstOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate or the default element if none
- * @method mixed firstOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate or null if none
- * @method mixed last(callable $predicate = [Helpers::class, "yes"]) Get the last element that match the predicate (or the very first if no predicate is provided)
+ * @method mixed|null firstOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element that match the predicate or null if none
+ * @method mixed last(callable $predicate = [Helpers::class, "yes"]) Get the last element that match the predicate (or the very first if no predicate is provided) or throw if none
  * @method mixed lastOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the last element that match the predicate or the default element if none
- * @method mixed lastOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element last match the predicate or null if none
+ * @method mixed|null lastOrNull(callable $predicate = [Helpers::class, "yes"]) Get the first element last match the predicate or null if none
+ * @method mixed atIndex(int $i) Get the element at index $i or throw if none
+ * @method mixed atIndexOr(int $i, mixed $default) Get the $i element or the default if none
+ * @method mixed|null atIndexOrNull(int $i) Get the $i element or null if none
+ * @method int indexOfFirst(callable $predicate) Get the index of the first element that satisfies the predicate, or -1
+ * @method int indexOf(mixed $needle) Get the first index of the $needle, or -1
+ * @method int indexOfLast(callable $predicate) Get the index of the last element that satisfies the predicate, or -1
+ * @method mixed|null maxBy(callable $mapper) Get the max value determined by comparing mapped values
+ * @method mixed|null max() Get the max value
+ * @method mixed|null maxWith(callable $comparator) Get the max value using a custom comparator
+ * @method mixed|null minBy(callable $mapper) Get the min value determined by comparing mapped values
+ * @method mixed|null min() Get the min value
+ * @method mixed|null minWith(callable $comparator) Get the min value using a custom comparator
  */
 class Stream implements IteratorAggregate {
 	/******************************************************************************************************************\

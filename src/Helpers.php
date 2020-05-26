@@ -54,7 +54,7 @@ abstract class Helpers {
 		return $obj instanceof $class;
 	}
 
-	public static function yes($_): bool{
+	public static function yes(...$args): bool{
 		return true;
 	}
 
@@ -62,5 +62,25 @@ abstract class Helpers {
 		return function(...$args) use($predicate): bool{
 			return !$predicate(...$args);
 		};
+	}
+
+	public static function identity($x){
+		return $x;
+	}
+
+	public static function merge(array $defaults, array $modified){
+		if(!static::isAssoc($modified)) {
+			return $defaults;
+		}
+
+		return array_merge_recursive($defaults, $modified);
+	}
+	
+	public static function interpolate($value): string{
+		return (string)$value;
+	}
+
+	public static function cmp($lhs, $rhs): int{
+		return $lhs <=> $rhs;
 	}
 }

@@ -66,6 +66,13 @@ Stream::addMethod("mapFlattened", function(callable $mapper): Stream{
 	return $this->flatten()->map($mapper);
 });
 
+Stream::addMethod("reverse", function(): Stream{
+	return $this->pipe(static function(Generator $parent){
+		$arr = Helpers::arrayFromIterable($parent);
+		yield from array_reverse($arr, false);
+	});
+});
+
 
 
 /**********************************************************************************************************************\
@@ -137,5 +144,20 @@ Stream::addMethod("notInstanceOf", function(string $class){
 	 */
 	return $this->filterNot(static function($value) use ($class) {
 		return Helpers::instanceOf($value, $class);
+	});
+});
+
+
+
+/**********************************************************************************************************************\
+ * Extenders
+\**********************************************************************************************************************/
+Stream::addMethod("then", function(iterable $it){
+	/**
+	 * @var Stream $this
+	 */
+	return $this->pipe(static function(Generator $parent) use($it){
+		yield from $parent;
+		yield from $it;
 	});
 });

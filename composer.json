@@ -20,7 +20,13 @@
     "autoload": {
         "psr-4": {
             "LazyCollection\\": "src"
-        }
+        },
+        "files": [
+            "src/Factories/factories.php",
+            "src/Methods/operators.php",
+            "src/Methods/terminators.php",
+            "src/Methods/statefulOperators.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
