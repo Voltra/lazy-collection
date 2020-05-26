@@ -116,6 +116,26 @@ abstract class Helpers {
 	}
 
 	/**
+	 * Return its first argument
+	 * @param $a
+	 * @param $b
+	 * @return mixed
+	 */
+	public static function firstArg($a, $b){
+		return $a;
+	}
+
+	/**
+	 * Return its second argument
+	 * @param $a
+	 * @param $b
+	 * @return mixed
+	 */
+	public static function secondArg($a, $b){
+		return $a;
+	}
+
+	/**
 	 * Merge defaults with user provided options
 	 * @param array $defaults The array of defaults
 	 * @param array $modified The user provided options

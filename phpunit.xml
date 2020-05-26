@@ -12,8 +12,8 @@
     verbose="true"
 >
     <testsuites>
-        <!-- <testsuite name="dir">
-            <directory>tests/dir</directory>
-        </testsuite> -->
+        <testsuite name="factories">
+            <directory>./tests/Factories</directory>
+        </testsuite>
     </testsuites>
 </phpunit>

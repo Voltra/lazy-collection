@@ -33,10 +33,11 @@ Stream::addMethod("reduce", function(callable $reducer, $init = null){
 	return $acc;
 });
 
-Stream::addMethod("count", function(callable $predicate = [Helpers::class, "yes"]): int{
+Stream::addMethod("count", function(callable $predicate = null): int{
 	/**
 	 * @var Stream $this
 	 */
+	$predicate = $predicate ?: [Helpers::class, "yes"];
 	return $this->reduce(static function($acc, $elem, $key) use($predicate): int{
 		return $predicate($elem, $key) ? $acc + 1 : $acc;
 	}, 0);
@@ -73,10 +74,12 @@ Stream::addMethod("toJSON", function(): string{
 	return Helpers::toJSON($this->toArray());
 });
 
-Stream::addMethod("associateBy", function(callable $valueFactory = [Helpers::class, "identity"], callable $keyFactory = [Helpers::class, "identity"]): array{
+Stream::addMethod("associateBy", function(callable $valueFactory = null, callable $keyFactory = null): array{
 	/**
 	 * @var Stream $this
 	 */
+	$valueFactory = $valueFactory ?: [Helpers::class, "firstArg"];
+	$keyFactory = $keyFactory ?: [Helpers::class, "secondArg"];
 	$ret = [];
 	foreach ($this as $key => $value) {
 		$newKey = $keyFactory($value, $key);
@@ -238,7 +241,9 @@ Stream::addMethod("notAll", function(callable $predicate): bool{
 /**********************************************************************************************************************\
  * Searchers
 \**********************************************************************************************************************/
-Stream::addMethod("first", function(callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("first", function(callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -251,7 +256,9 @@ Stream::addMethod("first", function(callable $predicate = [Helpers::class, "yes"
 	throw new NotFoundException("Could not find first element");
 });
 
-Stream::addMethod("firstOr", function($default, callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("firstOr", function($default, callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -262,14 +269,18 @@ Stream::addMethod("firstOr", function($default, callable $predicate = [Helpers::
 	}
 });
 
-Stream::addMethod("firstOrNull", function (callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("firstOrNull", function (callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
 	return $this->firstOr(null, $predicate);
 });
 
-Stream::addMethod("last", function(callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("last", function(callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	$def = [Helpers::class, "yes"];
 	$current = $def;
 
@@ -289,7 +300,9 @@ Stream::addMethod("last", function(callable $predicate = [Helpers::class, "yes"]
 	throw new NotFoundException("Could not find last element");
 });
 
-Stream::addMethod("lastOr", function($default, callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("lastOr", function($default, callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -300,7 +313,9 @@ Stream::addMethod("lastOr", function($default, callable $predicate = [Helpers::c
 	}
 });
 
-Stream::addMethod("lastOrNull", function (callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("lastOrNull", function (callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -312,7 +327,7 @@ Stream::addMethod("atIndex", function(int $i){
 	 * @var Stream $this
 	 */
 	$cur = 0;
-	return $this->first(static function($value) use(&$cur, $i): bool{
+	return $this->first(static function() use(&$cur, $i): bool{
 		return $cur++ === $i;
 	});
 });
@@ -439,7 +454,9 @@ Stream::addMethod("minWith", function(callable $comparator){
 	});
 });
 
-Stream::addMethod("single", function(callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("single", function(callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -452,7 +469,9 @@ Stream::addMethod("single", function(callable $predicate = [Helpers::class, "yes
 	throw new NotFoundException("Couldn't find single element");
 });
 
-Stream::addMethod("singleOr", function($default, callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("singleOr", function($default, callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */
@@ -463,7 +482,9 @@ Stream::addMethod("singleOr", function($default, callable $predicate = [Helpers:
 	}
 });
 
-Stream::addMethod("singleOrNull", function(callable $predicate = [Helpers::class, "yes"]){
+Stream::addMethod("singleOrNull", function(callable $predicate = null){
+	$predicate = $predicate ?: [Helpers::class, "yes"];
+
 	/**
 	 * @var Stream $this
 	 */

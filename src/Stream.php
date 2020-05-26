@@ -171,16 +171,24 @@ class Stream implements IteratorAggregate {
 	 * @return mixed
 	 * @throws InvalidFactoryException
 	 * @uses static::$factories for lookup
+	 * @uses static::nullInstance for closure binding
 	 */
 	public static function __callStatic(string $name, array $args): self {
 		if(static::hasFactory($name)){
 			$closure = static::$factories[$name];
 			return Closure::fromCallable($closure)
-					->bindTo(null, static::class)
-					->call(null, ...$args);
+					->bindTo(static::nullInstance(), static::class)
+					->call(static::nullInstance(), ...$args);
 		}
 
 		throw new InvalidFactoryException("Factory $name does not exist");
+	}
+
+
+	protected static function nullInstance(): Stream{
+		return new static((static function(){
+			yield null;
+		})());
 	}
 
 
