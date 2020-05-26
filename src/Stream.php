@@ -13,6 +13,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  *
  *
  * @method Stream fromIterable(iterable $it) Make a stream from an iterable
+ * @method Stream range(int $start = 0, int $end = null, int $step = 1)
  *
  *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
@@ -157,7 +158,7 @@ class Stream implements IteratorAggregate {
 	public function __call(string $name, array $args) {
 		if(static::hasMethod($name)){
 			$closure = static::$methods[$name];
-			return $closure->call($this, ...$args);
+			return $closure->bindTo($this, static::class)->call($this, ...$args);
 		}
 
 		throw new InvalidMethodException("Method $name does not exist");
