@@ -32,6 +32,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method Stream notInstanceOf(string $className) Keep only the items that are not instances of the given class
  *
  * @method Stream then(iterable $it) Streams the elements of the stream then the elements of the iterable
+ * @method Stream zipWith(Stream $rhs) Transform a pair of stream into a stream of pairs (of shortest length)
  *
  *
  * @method Stream takeWhile(callable $predicate) Takes elements while the predicate is satisfied
@@ -67,6 +68,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method number|null sum() Computes the sum of all the elements
  * @method number|null sumBy(callable $mapper) Computes the sum of all the mapped elements
  * @method number|null average() Computes the average of all the elements
+ * @method array unzip() Unzips a stream of pair into a pair of arrays
  *
  * @method bool all(callable $predicate) Determine whether or not all the elements satisfy the predicate
  * @method bool none(callable $predicate) Determine whether or not none of the elements satisfy the predicate
@@ -94,6 +96,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method mixed single(callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or throws
  * @method mixed singleOr(mixed $default, callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or get the default
  * @method mixed singleOrNull(callable $predicate = [Helpers::class, "yes"]) Get the single element that satisfies the predicate (if no predicate is given, the single element), or null
+ * @method bool contains(mixed $needle) Determine whether or not the stream contains the $needle
  */
 class Stream implements IteratorAggregate {
 	/******************************************************************************************************************\

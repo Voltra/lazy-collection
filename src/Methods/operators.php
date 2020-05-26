@@ -161,3 +161,21 @@ Stream::addMethod("then", function(iterable $it){
 		yield from $it;
 	});
 });
+
+Stream::addMethod("zipWith", function(Stream $it): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->pipe(static function(Generator $parent) use($it){
+		$rhsIt = $it->getIterator();
+		while($parent->valid() && $rhsIt->valid()){
+			$lhs = $parent->current();
+			$rhs = $it->current();
+
+			yield [$lhs, $rhs];
+
+			$parent->next();
+			$it->next();
+		}
+	});
+});

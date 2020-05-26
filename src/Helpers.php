@@ -89,7 +89,7 @@ abstract class Helpers {
 		$unique = array_unique($mapped, SORT_REGULAR);
 		return array_map(static function($key, $value) use($arr){
 			return $arr[$key];
-		}, array_keys($unique), array_values($unique));
+		}, array_keys($unique), $unique);
 	}
 
 	public static function sortBy(callable $keyExtractor, array $arr, int $flags = SORT_REGULAR): array{
@@ -98,7 +98,7 @@ abstract class Helpers {
 		$sorted = static::doSort($mapped, $flags);
 		return array_map(static function($key, $value) use($arr){
 			return $arr[$key];
-		}, array_keys($sorted), array_values($sorted));
+		}, array_keys($sorted), $sorted);
 	}
 
 	public static function doSort($array, int $flags = SORT_REGULAR){

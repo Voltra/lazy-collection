@@ -182,6 +182,18 @@ Stream::addMethod("average", function(){
 	});
 });
 
+Stream::addMethod("unzip", function(): array{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->reduce(static function($acc, $elem){
+		[$lhs, $rhs] = $elem;
+		$acc[0][] = $lhs;
+		$acc[1][] = $rhs;
+		return $acc;
+	}, [[], []]);
+});
+
 
 
 /**********************************************************************************************************************\
@@ -456,4 +468,11 @@ Stream::addMethod("singleOrNull", function(callable $predicate = [Helpers::class
 	 * @var Stream $this
 	 */
 	return $this->singleOr(null, $predicate);
+});
+
+Stream::addMethod("contains", function($needle): bool{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->indexOf($needle) >= 0;
 });
