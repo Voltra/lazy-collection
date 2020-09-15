@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators;
+namespace LazyCollection\Tests\Methods\Operators\Mappers\Mappers\Mappers\Mappers\Mappers;
 
 
 use LazyCollection\Stream;
@@ -40,6 +40,21 @@ class FlatMapTest extends \LazyCollection\Tests\PHPUnit
         $result = $this->flatMap($input, $mapper);
         $this->assertEquals($expected, $result);
     }
+
+	/**
+	 * @test
+	 * @covers \LazyCollection\Stream::flatMap
+	 * @dataProvider provideFlatMapData
+	 *
+	 * @param iterable $input
+	 * @param callable $mapper
+	 * @param iterable $expected
+	 */
+    public function mapperIsCalledOncePerElement(iterable $input, callable $mapper, iterable $expected){
+    	$count = count($input);
+    	$callback = $this->createCallbackMock($this->exactly($count), null, []);
+    	$this->flatMap($input, $callback);
+	}
 
 
 

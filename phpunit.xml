@@ -12,6 +12,10 @@
     verbose="true"
 >
     <testsuites>
+        <testsuite name="globals and helpers">
+            <directory>./tests/Globals/</directory>
+        </testsuite>
+
         <testsuite name="factories">
             <directory>./tests/Factories/</directory>
         </testsuite>

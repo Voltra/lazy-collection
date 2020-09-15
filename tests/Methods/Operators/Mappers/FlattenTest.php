@@ -1,7 +1,7 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators;
+namespace LazyCollection\Tests\Methods\Operators\Mappers\Mappers\Mappers\Mappers;
 
 
 use LazyCollection\Stream;

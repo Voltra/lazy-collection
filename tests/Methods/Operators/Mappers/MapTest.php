@@ -1,77 +1,76 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators;
+namespace LazyCollection\Tests\Methods\Operators\Mappers\Mappers;
 
 
 use LazyCollection\Stream;
+use LazyCollection\Tests\PHPUnit;
 
-class PeekTest extends \LazyCollection\Tests\PHPUnit
+class MapTest extends PHPUnit
 {
     /******************************************************************************************************************\
      * HELPERS
     \******************************************************************************************************************/
     /**
      * @param iterable $it
-     * @param callable $cb
+     * @param callable $mapper
      * @return array
      */
-    protected function peek(iterable $it, callable $cb){
+    protected function map(iterable $it, callable $mapper){
         return Stream::fromIterable($it)
-            ->peek($cb)
+            ->map($mapper)
             ->toArray();
     }
-
-
 
     /******************************************************************************************************************\
      * TESTS
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::peek
-     * @dataProvider providePeekData
+     * @covers \LazyCollection\Stream::map
+     * @dataProvider provideMappingData
      *
+     * @param array $data
+     * @param callable $mapper
      * @param array $expected
-     * @param callable $cb
      */
-    public function doesNotMutateTheInput(array $expected, callable $cb){
-        $result = $this->peek($expected, $cb);
+    public function properlyMapsEachElement(array $data, callable $mapper, array $expected){
+        $result = $this->map($data, $mapper);
         $this->assertEquals($expected, $result);
     }
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::peek
-     * @dataProvider providePeekData
+     * @covers \LazyCollection\Stream::map
+     * @dataProvider provideMappingData
      *
+     * @param array $data
+     * @param callable $mapper
      * @param array $expected
-     * @param callable $cb
      */
-    public function properlyCallsTheCallback(array $expected, callable $cb){
-        $count = count($expected);
-        $callable = $this->createCallbackMock($this->exactly($count), null, 2);
-        $this->peek($expected, $callable);
+    public function mapperIsCalledOncePerElement(array $data, callable $mapper, array $expected){
+        $count = count($data);
+        $callback = $this->createCallbackMock($this->exactly($count), null, 2);
+        $this->map($data, $callback);
     }
-
 
     /******************************************************************************************************************\
      * TEST PROVIDERS
     \******************************************************************************************************************/
-    public function providePeekData(){
+    public function provideMappingData(){
         return [
             [
                 [1,2,3],
                 function($e){ return 2 * $e; },
+                [2,4,6],
             ],
             [
                 [2,4,6],
                 function($e){ return 1 + $e; },
-            ],
-            [
-                [],
-                function($e){ return 1 + $e; },
+                [3,5,7],
             ],
         ];
     }
+
 }

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators;
+namespace LazyCollection\Tests\Methods\Operators\Mappers\Mappers\Mappers;
 
 
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class MapTest extends PHPUnit
+class MapFlattenedTest extends PHPUnit
 {
     /******************************************************************************************************************\
      * HELPERS
@@ -17,60 +17,58 @@ class MapTest extends PHPUnit
      * @param callable $mapper
      * @return array
      */
-    protected function map(iterable $it, callable $mapper){
+    protected function mapFlattened(iterable $it, callable $mapper){
         return Stream::fromIterable($it)
-            ->map($mapper)
+            ->mapFlattened($mapper)
             ->toArray();
     }
+
+
 
     /******************************************************************************************************************\
      * TESTS
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::map
-     * @dataProvider provideMappingData
+     * @covers \LazyCollection\Stream::mapFlattened
+     * @dataProvider provideChunkyArrays
      *
-     * @param array $data
+     * @param iterable $input
      * @param callable $mapper
-     * @param array $expected
+     * @param iterable $expected
      */
-    public function properlyMapsEachElement(array $data, callable $mapper, array $expected){
-        $result = $this->map($data, $mapper);
+    public function properlyFlattensAndThenMaps(iterable $input, callable $mapper, iterable $expected){
+        $result = $this->mapFlattened($input, $mapper);
         $this->assertEquals($expected, $result);
     }
 
-    /**
-     * @test
-     * @covers \LazyCollection\Stream::map
-     * @dataProvider provideMappingData
-     *
-     * @param array $data
-     * @param callable $mapper
-     * @param array $expected
-     */
-    public function mapperIsCalledOncePerElement(array $data, callable $mapper, array $expected){
-        $count = count($data);
-        $callback = $this->createCallbackMock($this->exactly($count), null, 2);
-        $this->map($data, $callback);
-    }
+	/**
+	 * @test
+	 * @covers \LazyCollection\Stream::mapFlattened
+	 * @dataProvider provideChunkyArrays
+	 *
+	 * @param iterable $input
+	 * @param callable $mapper
+	 * @param iterable $expected
+	 */
+    public function mapperIsCalledOncePerElement(iterable $input, callable $mapper, iterable $expected){
+    	$count = count($expected);
+    	$callback = $this->createCallbackMock($this->exactly($count), null, 42);
+    	$result = $this->mapFlattened($input, $callback);
+	}
+
+
 
     /******************************************************************************************************************\
      * TEST PROVIDERS
     \******************************************************************************************************************/
-    public function provideMappingData(){
+    public function provideChunkyArrays(){
         return [
             [
-                [1,2,3],
+                [1, [2, 3], [4], 5, 6],
                 function($e){ return 2 * $e; },
-                [2,4,6],
-            ],
-            [
-                [2,4,6],
-                function($e){ return 1 + $e; },
-                [3,5,7],
+                [2, 4, 6, 8, 10, 12],
             ],
         ];
     }
-
 }

@@ -49,11 +49,7 @@ Stream::registerMethod("flatten", function(): Stream{
                 if(Helpers::isIterable($value)){
                     $arr = Helpers::arrayFromIterable($value);
                     if(Helpers::isAssoc($arr)) {
-//                    yield from $arr;
-                        foreach ($arr as $key => $val) {
-                            yield $key => $val;
-                        }
-
+                        yield from $arr;
                     }else{
                         foreach ($arr as $val)
                             yield $val;
@@ -83,7 +79,10 @@ Stream::registerMethod("mapFlattened", function(callable $mapper): Stream{
 Stream::registerMethod("reverse", function(): Stream{
 	return $this->pipe(static function(Generator $parent){
 		$arr = Helpers::arrayFromIterable($parent);
-		yield from array_reverse($arr, false);
+		if(Helpers::isAssoc($arr))
+		    yield from $arr;
+		else
+		    yield from array_reverse($arr, false);
 	});
 });
 
