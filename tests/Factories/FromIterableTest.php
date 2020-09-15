@@ -11,7 +11,7 @@ use stdClass;
 class FromIterableTest extends PHPUnit {
 	/**
 	 * @test empty iterable makes empty stream
-	 * @covers Stream::fromIterable
+	 * @covers \LazyCollection\Stream::fromIterable
 	 */
 	public function emptyIterableMakesEmptyStream(){
 		$it = [];
@@ -25,7 +25,7 @@ class FromIterableTest extends PHPUnit {
 
 	/**
 	 * @test size of stream is size of iterable
-	 * @covers Stream::fromIterable
+	 * @covers \LazyCollection\Stream::fromIterable
 	 * @dataProvider provideIterableWithSize
 	 */
 	public function sizeOfStreamIsSizeOfIterable(iterable $it, int $size){
@@ -37,11 +37,12 @@ class FromIterableTest extends PHPUnit {
 		self::assertSame($size, $ssize);
 	}
 
-	/**
-	 * @test stream does not change keys
-	 * @covers Stream::fromIterable
-	 * @dataProvider provideAssociative
-	 */
+    /**
+     * @test stream does not change keys
+     * @covers \LazyCollection\Stream::fromIterable
+     * @dataProvider provideAssociative
+     * @param array $arr
+     */
 	public function streamDoesNotChangeKeys(array $arr){
 		$expectedKeys = array_keys($arr);
 		$stream = Stream::fromIterable($arr);
@@ -52,16 +53,20 @@ class FromIterableTest extends PHPUnit {
 		self::assertSame($expectedKeys, $keys);
 	}
 
-	/**
-	 * @test can create from various iterables
-	 * @covers Stream::fromIterable
-	 * @dataProvider provideDifferentIterables
-	 */
-	public function canCreateFromVariousIterables($it){
+    /**
+     * @test can create from various iterables
+     * @covers \LazyCollection\Stream::fromIterable
+     * @dataProvider provideDifferentIterables
+     * @param iterable $it
+     */
+	public function canCreateFromVariousIterables(iterable $it){
 		Stream::fromIterable($it);
 		self::assertTrue(true);
 	}
 
+    /******************************************************************************************************************\
+     * TEST PROVIDERS
+    \******************************************************************************************************************/
 	public function provideIterableWithSize(): array {
 		return [
 			[

@@ -12,8 +12,8 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @package LazyCollection
  *
  *
- * @method Stream fromIterable(iterable $it) Make a stream from an iterable
- * @method Stream range(int $start = 0, int $end = null, int $step = 1)
+ * @method static Stream fromIterable(iterable $it) Make a stream from an iterable
+ * @method static Stream range(int $start = 0, int $end = null, int $step = 1)
  *
  *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
@@ -222,7 +222,7 @@ class Stream implements IteratorAggregate {
 	 * @throws InvalidMethodException
 	 * @uses static::$methods for lookup and insertion
 	 */
-	public static function addMethod(string $name, callable $method): void {
+	public static function registerMethod(string $name, callable $method): void {
 		if(static::hasMethod($name)) {
 			throw new InvalidMethodException("Method $name already exists");
 		}
@@ -237,7 +237,7 @@ class Stream implements IteratorAggregate {
 	 * @throws InvalidFactoryException
 	 * @uses static::$factories for lookup and insertion
 	 */
-	public static function addFactory(string $name, callable  $factory): void{
+	public static function registerFactory(string $name, callable  $factory): void{
 		if(static::hasFactory($name)){
 			throw new InvalidFactoryException("Factory $name already exists");
 		}

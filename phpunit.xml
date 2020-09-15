@@ -13,7 +13,19 @@
 >
     <testsuites>
         <testsuite name="factories">
-            <directory>./tests/Factories</directory>
+            <directory>./tests/Factories/</directory>
+        </testsuite>
+
+        <testsuite name="operators">
+            <directory>./tests/Methods/Operators/</directory>
+        </testsuite>
+
+        <testsuite name="stateful operators">
+            <directory>./tests/Methods/StatefulOperators/</directory>
+        </testsuite>
+
+        <testsuite name="terminators">
+            <directory>./tests/Methods/Terminators/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

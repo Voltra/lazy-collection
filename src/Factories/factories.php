@@ -3,7 +3,7 @@
 use LazyCollection\Helpers;
 use LazyCollection\Stream;
 
-Stream::addFactory("fromIterable", function(iterable $it){
+Stream::registerFactory("fromIterable", function(iterable $it){
 	/**
 	 * @var $this Stream
 	 * @static Stream
@@ -17,14 +17,14 @@ Stream::addFactory("fromIterable", function(iterable $it){
 	return new static($gen, $associative);
 });
 
-Stream::addFactory("range", function(int $start = 0, int $end = null, int $step = 1): Stream{
+Stream::registerFactory("range", function(int $start = 0, int $end = null, int $step = 1): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	$gen = (static function($start, $end, $step){
 		if(Helpers::notNull($end)){
-			$begin = $start < $end ? $start : $end;
-			$end_ = $start < $end ? $end : $start;
+			$begin = $start;
+			$end_ = $end;
 			$cmp = $start < $end ? static function($i, $end){
 				return $i < $end;
 			} : static function($i, $end){
@@ -33,10 +33,11 @@ Stream::addFactory("range", function(int $start = 0, int $end = null, int $step 
 			$st = $step;
 
 			if(($start < $end && $step < 0) || ($start > $end && $step > 0)) {
+                // Avoids using the wrong stepping + UX (can pass 1 instead of passing -1 to decrease by 1)
 				$st *= -1;
 			}
 
-			for($i = $begin ; $cmp($i, $end) ; $i += $st){
+			for($i = $begin ; $cmp($i, $end_) ; $i += $st){
 				yield $i;
 			}
 		}else{

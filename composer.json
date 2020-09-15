@@ -10,12 +10,14 @@
         }
     ],
     "require": {
-        "ext-json": "*"
+        "ext-json": "*",
+        "php": ">=7.1.11"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
         "php-mock/php-mock": "^2.2",
-        "php-mock/php-mock-phpunit": "^2.6"
+        "php-mock/php-mock-phpunit": "^2.6",
+        "jasny/phpunit-extension": "^0.2.1"
     },
     "autoload": {
         "psr-4": {
@@ -25,7 +27,8 @@
             "src/Factories/factories.php",
             "src/Methods/operators.php",
             "src/Methods/terminators.php",
-            "src/Methods/statefulOperators.php"
+            "src/Methods/statefulOperators.php",
+            "src/functions.php"
         ]
     },
     "autoload-dev": {

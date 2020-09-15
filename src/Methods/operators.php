@@ -6,7 +6,7 @@ use LazyCollection\Stream;
 /**********************************************************************************************************************\
  * Mappers
 \**********************************************************************************************************************/
-Stream::addMethod("map", function(callable $mapper): Stream{
+Stream::registerMethod("map", function(callable $mapper): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -17,7 +17,7 @@ Stream::addMethod("map", function(callable $mapper): Stream{
 	});
 });
 
-Stream::addMethod("peek", function(callable $cb): Stream{
+Stream::registerMethod("peek", function(callable $cb): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -35,7 +35,7 @@ Stream::addMethod("peek", function(callable $cb): Stream{
 	});
 });
 
-Stream::addMethod("flatten", function(): Stream{
+Stream::registerMethod("flatten", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -52,21 +52,21 @@ Stream::addMethod("flatten", function(): Stream{
 	});
 });
 
-Stream::addMethod("flatMap", function(callable $mapper): Stream{
+Stream::registerMethod("flatMap", function(callable $mapper): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->map($mapper)->flatten();
 });
 
-Stream::addMethod("mapFlattened", function(callable $mapper): Stream{
+Stream::registerMethod("mapFlattened", function(callable $mapper): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->flatten()->map($mapper);
 });
 
-Stream::addMethod("reverse", function(): Stream{
+Stream::registerMethod("reverse", function(): Stream{
 	return $this->pipe(static function(Generator $parent){
 		$arr = Helpers::arrayFromIterable($parent);
 		yield from array_reverse($arr, false);
@@ -78,7 +78,7 @@ Stream::addMethod("reverse", function(): Stream{
 /**********************************************************************************************************************\
  * Filters
 \**********************************************************************************************************************/
-Stream::addMethod("filter", function(callable $predicate): Stream{
+Stream::registerMethod("filter", function(callable $predicate): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -100,36 +100,36 @@ Stream::addMethod("filter", function(callable $predicate): Stream{
 	 return $this->pipe($gen);
 });
 
-Stream::addMethod("filterNot", function(callable $predicate): Stream{
+Stream::registerMethod("filterNot", function(callable $predicate): Stream{
 	return $this->filter(Helpers::negate($predicate));
 });
 
-Stream::addMethod("filterOut", function(callable $predicate): Stream{
+Stream::registerMethod("filterOut", function(callable $predicate): Stream{
 	return $this->filterNot($predicate);
 });
 
-Stream::addMethod("notNull", function(): Stream{
+Stream::registerMethod("notNull", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->filter([Helpers::class, "notNull"]);
 });
 
-Stream::addMethod("falsy", function(): Stream{
+Stream::registerMethod("falsy", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->filter([Helpers::class, "falsy"]);
 });
 
-Stream::addMethod("truthy", function(): Stream{
+Stream::registerMethod("truthy", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->filter([Helpers::class, "truthy"]);
 });
 
-Stream::addMethod("instanceOf", function(string $class): Stream{
+Stream::registerMethod("instanceOf", function(string $class): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -138,7 +138,7 @@ Stream::addMethod("instanceOf", function(string $class): Stream{
 	});
 });
 
-Stream::addMethod("notInstanceOf", function(string $class){
+Stream::registerMethod("notInstanceOf", function(string $class){
 	/**
 	 * @var Stream $this
 	 */
@@ -152,7 +152,7 @@ Stream::addMethod("notInstanceOf", function(string $class){
 /**********************************************************************************************************************\
  * Extenders
 \**********************************************************************************************************************/
-Stream::addMethod("then", function(iterable $it){
+Stream::registerMethod("then", function(iterable $it){
 	/**
 	 * @var Stream $this
 	 */
@@ -162,7 +162,7 @@ Stream::addMethod("then", function(iterable $it){
 	});
 });
 
-Stream::addMethod("zipWith", function(Stream $it): Stream{
+Stream::registerMethod("zipWith", function(Stream $it): Stream{
 	/**
 	 * @var Stream $this
 	 */

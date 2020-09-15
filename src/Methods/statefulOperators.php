@@ -6,7 +6,7 @@ use LazyCollection\Stream;
 /**********************************************************************************************************************\
  * Limiters
 \**********************************************************************************************************************/
-Stream::addMethod("takeWhile", function(callable $predicate): Stream{
+Stream::registerMethod("takeWhile", function(callable $predicate): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -22,14 +22,14 @@ Stream::addMethod("takeWhile", function(callable $predicate): Stream{
 	});
 });
 
-Stream::addMethod("takeUntil", function(callable $predicate): Stream{
+Stream::registerMethod("takeUntil", function(callable $predicate): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->takeWhile(Helpers::negate($predicate));
 });
 
-Stream::addMethod("take", function(int $maxAmount): Stream{
+Stream::registerMethod("take", function(int $maxAmount): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -39,7 +39,7 @@ Stream::addMethod("take", function(int $maxAmount): Stream{
 	});
 });
 
-Stream::addMethod("skipWhile", function(callable $predicate): Stream{
+Stream::registerMethod("skipWhile", function(callable $predicate): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -56,14 +56,14 @@ Stream::addMethod("skipWhile", function(callable $predicate): Stream{
 	});
 });
 
-Stream::addMethod("skipUntil", function (callable $predicate): Stream{
+Stream::registerMethod("skipUntil", function (callable $predicate): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->skipWhile(Helpers::negate($predicate));
 });
 
-Stream::addMethod("skip", function(int $maxAmount): Stream{
+Stream::registerMethod("skip", function(int $maxAmount): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -73,7 +73,7 @@ Stream::addMethod("skip", function(int $maxAmount): Stream{
 	});
 });
 
-Stream::addMethod("subStream", function(int $startIndex, int $endIndex): Stream{
+Stream::registerMethod("subStream", function(int $startIndex, int $endIndex): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -81,7 +81,7 @@ Stream::addMethod("subStream", function(int $startIndex, int $endIndex): Stream{
 	return $this->skip($startIndex)->take($take);
 });
 
-Stream::addMethod("uniqueBy", function(callable $idExtractor): Stream{
+Stream::registerMethod("uniqueBy", function(callable $idExtractor): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -89,7 +89,7 @@ Stream::addMethod("uniqueBy", function(callable $idExtractor): Stream{
 	return Stream::fromIterable(Helpers::uniqueBy($idExtractor, $arr));
 });
 
-Stream::addMethod("unique", function(): Stream{
+Stream::registerMethod("unique", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -101,7 +101,7 @@ Stream::addMethod("unique", function(): Stream{
 /**********************************************************************************************************************\
  * Arrangers
 \**********************************************************************************************************************/
-Stream::addMethod("sortBy", function(callable $idExtractor): Stream{
+Stream::registerMethod("sortBy", function(callable $idExtractor): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -109,14 +109,14 @@ Stream::addMethod("sortBy", function(callable $idExtractor): Stream{
 	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_ASC));
 });
 
-Stream::addMethod("sort", function(): Stream{
+Stream::registerMethod("sort", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->sortBy([Helpers::class, "identity"]);
 });
 
-Stream::addMethod("sortByDescending", function(callable $idExtractor): Stream{
+Stream::registerMethod("sortByDescending", function(callable $idExtractor): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -124,14 +124,14 @@ Stream::addMethod("sortByDescending", function(callable $idExtractor): Stream{
 	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_DESC));
 });
 
-Stream::addMethod("sortDescending", function(): Stream{
+Stream::registerMethod("sortDescending", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
 	return $this->sortByDescending([Helpers::class, "identity"]);
 });
 
-Stream::addMethod("sortWith", function(callable $comparator): Stream{
+Stream::registerMethod("sortWith", function(callable $comparator): Stream{
 	/**
 	 * @var Stream $this
 	 */
@@ -144,7 +144,7 @@ Stream::addMethod("sortWith", function(callable $comparator): Stream{
 /**********************************************************************************************************************\
  * Blockifiers
 \**********************************************************************************************************************/
-Stream::addMethod("chunks", function(int $size): Stream{
+Stream::registerMethod("chunks", function(int $size): Stream{
 	/**
 	 * @var Stream $this
 	 */

@@ -18,8 +18,8 @@ pushd . >/dev/null
 popd >/dev/null
 
 ##Aliases definition
-alias phpunit="${BASEDIR}/vendor/phpunit/phpunit/phpunit"
+alias phpunit="${BASEDIR}/vendor/bin/phpunit"
 echo "Created alias 'phpunit' for default format"
 
-alias punit="${BASEDIR}/vendor/phpunit/phpunit/phpunit --testdox"
+alias punit="phpunit --testdox"
 echo "Created alias 'punit' for testdox format"
