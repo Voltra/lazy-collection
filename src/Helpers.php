@@ -44,9 +44,9 @@ abstract class Helpers {
 	 * @param array $arr The array to convert
 	 * @return string
 	 */
-	public static function toJSON(array $arr){
+	public static function toJSON(array $arr, string $defaultJSON = ""){
 		$json = json_encode($arr, true);
-		return $json === false ? "" : $json;
+		return $json === false ? $defaultJSON : $json;
 	}
 
 	/**
@@ -132,7 +132,7 @@ abstract class Helpers {
 	 * @return mixed
 	 */
 	public static function secondArg($a, $b){
-		return $a;
+		return $b;
 	}
 
 	/**

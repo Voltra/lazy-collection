@@ -39,17 +39,31 @@ Stream::registerMethod("flatten", function(): Stream{
 	/**
 	 * @var Stream $this
 	 */
-	return $this->associative ? $this : $this->pipe(static function(Generator $parent){
-		foreach ($parent as $value){
-			if(Helpers::isIterable($value)){
-				foreach($value as $val) {
-					yield $val;
-				}
-			}else {
-				yield $value;
-			}
-		}
-	});
+	if($this->associative)
+	    return $this;
+	else{
+	    $associative = true; //TODO: Check if there can be a better alternative (and the need for one)
+
+        return $this->pipe(static function(Generator $parent){
+            foreach ($parent as $value){
+                if(Helpers::isIterable($value)){
+                    $arr = Helpers::arrayFromIterable($value);
+                    if(Helpers::isAssoc($arr)) {
+//                    yield from $arr;
+                        foreach ($arr as $key => $val) {
+                            yield $key => $val;
+                        }
+
+                    }else{
+                        foreach ($arr as $val)
+                            yield $val;
+                    }
+                }else {
+                    yield $value;
+                }
+            }
+        }, $associative);
+    }
 });
 
 Stream::registerMethod("flatMap", function(callable $mapper): Stream{

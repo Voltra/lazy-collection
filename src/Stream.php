@@ -143,8 +143,8 @@ class Stream implements IteratorAggregate {
 	 * @param callable $generatorFactory A function that accepts the current generator and returns a new generator
 	 * @return self
 	 */
-	protected function pipe(callable $generatorFactory): self{
-		return new static($generatorFactory($this->gen), $this->associative);
+	protected function pipe(callable $generatorFactory, bool $associative = false): self{
+		return new static($generatorFactory($this->gen), $this->associative || $associative);
 	}
 
 	/**
