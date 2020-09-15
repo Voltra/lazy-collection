@@ -42,10 +42,11 @@ abstract class Helpers {
 	/**
 	 * Convert an array to JSON
 	 * @param array $arr The array to convert
+	 * @param string $defaultJSON
 	 * @return string
 	 */
 	public static function toJSON(array $arr, string $defaultJSON = ""){
-		$json = json_encode($arr, true);
+		$json = json_encode($arr);
 		return $json === false ? $defaultJSON : $json;
 	}
 
@@ -96,6 +97,15 @@ abstract class Helpers {
 	}
 
 	/**
+	 * A predicate that is never satisfied
+	 * @param mixed ...$args
+	 * @return bool
+	 */
+	public static function no(...$args): bool{
+		return false;
+	}
+
+	/**
 	 * Negate a predicate
 	 * @param callable $predicate
 	 * @return callable
@@ -118,10 +128,10 @@ abstract class Helpers {
 	/**
 	 * Return its first argument
 	 * @param $a
-	 * @param $b
+	 * @param mixed ...$rest
 	 * @return mixed
 	 */
-	public static function firstArg($a, $b){
+	public static function firstArg($a, ...$rest){
 		return $a;
 	}
 
@@ -129,9 +139,10 @@ abstract class Helpers {
 	 * Return its second argument
 	 * @param $a
 	 * @param $b
+	 * @param mixed ...$rest
 	 * @return mixed
 	 */
-	public static function secondArg($a, $b){
+	public static function secondArg($a, $b, ...$rest){
 		return $b;
 	}
 
@@ -156,6 +167,13 @@ abstract class Helpers {
 	 * @return string
 	 */
 	public static function interpolate($value): string{
+		if($value === true)
+			return "true";
+		if($value === false)
+			return "false";
+		if($value === null)
+			return "null";
+
 		return (string)$value;
 	}
 
