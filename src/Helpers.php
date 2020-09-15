@@ -211,10 +211,15 @@ abstract class Helpers {
 	public static function sortBy(callable $keyExtractor, array $arr, int $flags = SORT_REGULAR): array{
 		$tmp = array_merge([], $arr);
 		$mapped = array_map($keyExtractor, $tmp);
+
+		$keyed = []; // mapping of key (via $keyExtractor) to value (from $arr/$tmp)
+		for($i = 0, $length = count($tmp) ; $i < $length ; ++$i)
+			$keyed[$mapped[$i]] = $tmp[$i];
+
 		$sorted = static::doSort($mapped, $flags);
-		return array_map(static function($key, $value) use($arr){
-			return $arr[$key];
-		}, array_keys($sorted), $sorted);
+		return array_map(function($value) use($keyed){
+			return $keyed[$value];
+		}, $sorted);
 	}
 
 	/**
@@ -224,7 +229,7 @@ abstract class Helpers {
 	 * @return mixed
 	 */
 	public static function doSort(array $array, int $flags = SORT_REGULAR){
-		asort($array, $flags);
+		/*$didSort =*/ sort($array, $flags);
 		return $array;
 	}
 

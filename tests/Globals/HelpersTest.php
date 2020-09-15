@@ -245,9 +245,81 @@ class HelpersTest extends PHPUnit
 		));
 	}
 
+	/**
+	 * @test
+	 * @covers \LazyCollection\Helpers::sortBy
+	 * @dataProvider provideSortPayload
+	 *
+	 * @param array $input
+	 * @param callable $keyExtractor
+	 * @param array $expected
+	 */
+	public function sortingDoesTheRightThing(array $input, callable $keyExtractor, array $expected){
+		$this->assertEquals($expected, Helpers::sortBy($keyExtractor, $input));
+	}
+
+	/**
+	 * @test
+	 * @covers \LazyCollection\Helpers::doSort
+	 * @dataProvider provideAssocSortPayload
+	 *
+	 * @param array $input
+	 * @param array $expected
+	 */
+	public function associativeInplaceSortDoesTheRightThing(array $input, array $expected){
+		$this->assertEquals($expected, Helpers::doSort($input));
+	}
+
+	/**
+	 * @test
+	 * @covers \LazyCollection\Helpers::sortWith
+	 * @dataProvider provideSortWithPayload
+	 *
+	 * @param array $input
+	 * @param callable $comparator
+	 * @param array $expected
+	 */
+	public function inPlaceComparativeSortingWorksProperly(array $input, callable $comparator, array $expected){
+		$this->assertEquals($expected, Helpers::sortWith($comparator, $input));
+	}
+
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
+	public function provideSortWithPayload(){
+		return [
+			[
+				[5,1,8],
+				function($lhs, $rhs){ return $rhs <=> $lhs; },
+				[8, 5, 1],
+			],
+			[
+				[5,1,8],
+				function($lhs, $rhs){ return $lhs <=> $rhs; },
+				[1, 5, 8],
+			],
+		];
+	}
+
+	public function provideAssocSortPayload(){
+		return [
+			[
+				[5,1,8],
+				[1,5,8],
+			],
+		];
+	}
+
+	public function provideSortPayload(){
+		return [
+			[
+				[1,-5,8],
+				function($x){ return -4 * (4 - $x); },
+				[-5, 1, 8], // by [1 => -12, -5 => -36, 8 => 16]
+			],
+		];
+	}
+
 	public function provideComparisonPayload(){
 		return [
 			[0, 1, -1],
