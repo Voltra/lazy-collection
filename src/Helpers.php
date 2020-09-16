@@ -195,10 +195,14 @@ abstract class Helpers {
 	 */
 	public static function uniqueBy(callable $key, array $arr): array {
 		$mapped = array_map($key, $arr);
-		$unique = array_unique($mapped, SORT_REGULAR);
-		return array_map(static function($key, $value) use($arr){
-			return $arr[$key];
-		}, array_keys($unique), $unique);
+		$keyed = []; // mapping of key (via $key) to value (from $arr)
+		foreach ($arr as $i => $value)
+			$keyed[$mapped[$i]] = $value;
+
+		$unique = array_values(array_unique($mapped, SORT_REGULAR));
+		return array_map(static function($uniqued) use($keyed){
+			return $keyed[$uniqued];
+		}, $unique);
 	}
 
 	/**
@@ -213,8 +217,8 @@ abstract class Helpers {
 		$mapped = array_map($keyExtractor, $tmp);
 
 		$keyed = []; // mapping of key (via $keyExtractor) to value (from $arr/$tmp)
-		for($i = 0, $length = count($tmp) ; $i < $length ; ++$i)
-			$keyed[$mapped[$i]] = $tmp[$i];
+		foreach ($tmp as $i => $value)
+			$keyed[$mapped[$i]] = $value;
 
 		$sorted = static::doSort($mapped, $flags);
 		return array_map(function($value) use($keyed){

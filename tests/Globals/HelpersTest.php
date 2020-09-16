@@ -241,6 +241,20 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
+	 * @covers \LazyCollection\Helpers::uniqueBy
+	 * @dataProvider provideUniqueByPayload
+	 *
+	 * @param array $input
+	 * @param callable $key
+	 * @param array $expected
+	 */
+	public function uniqueByProperlySeperateDistinctElements(array $input, callable $key, array $expected){
+		$result = Helpers::uniqueBy($key, $input);
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @test
 	 * @covers \LazyCollection\Helpers::sortBy
 	 * @dataProvider provideSortPayload
 	 *
@@ -310,6 +324,16 @@ class HelpersTest extends PHPUnit
 				[1,-5,8],
 				function($x){ return -4 * (4 - $x); },
 				[-5, 1, 8], // by [1 => -12, -5 => -36, 8 => 16]
+			],
+		];
+	}
+
+	public function provideUniqueByPayload(){
+		return [
+			[
+				[0,1,2,1,2,3],
+				function($e){ return 2 * $e; },
+				[0,1,2,3],
 			],
 		];
 	}
