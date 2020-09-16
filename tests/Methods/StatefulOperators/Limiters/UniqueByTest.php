@@ -1,5 +1,6 @@
 <?php
 
+namespace LazyCollection\Tests\Methods\StatefulOperators\Limiters;
 
 use LazyCollection\Stream;
 use LazyCollection\Tests\Globals\HelpersBasedTests;
@@ -9,6 +10,11 @@ class UniqueByTest extends HelpersBasedTests
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
+	/**
+	 * @param iterable $it
+	 * @param callable $key
+	 * @return array
+	 */
 	public function uniqueBy(iterable $it, callable $key){
 		return Stream::fromIterable($it)
 			->uniqueBy($key)
