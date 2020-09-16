@@ -4,26 +4,24 @@
 namespace LazyCollection\Tests\Methods\Operators\Filters;
 
 
-use LazyCollection\Helpers;
 use LazyCollection\Stream;
+use LazyCollection\Tests\Globals\HelpersTest;
 use LazyCollection\Tests\PHPUnit;
 
-class FilterTest extends PHPUnit
+class NotNullTest extends HelpersBasedTests
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
 	 * @param iterable $it
-	 * @param callable $predicate
 	 * @return array
 	 */
-	public function filter(iterable $it, callable $predicate){
+	public function notNull(iterable $it){
 		return Stream::fromIterable($it)
-			->filter($predicate)
+			->notNull()
 			->toArray();
 	}
-
 
 
 	/******************************************************************************************************************\
@@ -31,55 +29,53 @@ class FilterTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
+	 * @covers \LazyCollection\Stream::notNull
+	 * @dataProvider provideMaybeNull
 	 *
-	 * @param array $input
-	 * @param callable $predicate
-	 * @param array $expected
+	 * @param $value
+	 * @param bool $isNull
 	 */
-	public function predicateIsCalledOncePerElement(array $input, callable $predicate, array $expected){
-		$count = count($input);
-		$callback = $this->createCallbackMock($this->exactly($count), null, false);
-		$this->filter($input, $callback);
+	public function properlyFiltersOutNulls($value, bool $isNull){
+		$result = $this->notNull([$value]);
+		$length = $isNull ? 0 : 1;
+		$this->assertCount($length, $result);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
+	 * @covers \LazyCollection\Stream::notNull
+	 * @dataProvider provideArray
 	 *
 	 * @param array $input
-	 * @param callable $predicate
 	 * @param array $expected
 	 */
-	public function filtersProperlyUsingThePredicate(array $input, callable $predicate, array $expected){
-		$result = $this->filter($input, $predicate);
+	public function worksOnMultipleItems(array $input, array $expected){
+		$result = $this->notNull($input);
 		$this->assertEquals($expected, $result);
 	}
-
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFilterData(){
+	public function provideArray(){
 		return [
 			[
-				[1, 2, 3],
-				function($e){ return $e % 2 === 0; },
-				[2],
+				[1,2],
+				[1,2],
 			],
 			[
-				[1,2,3,4],
-				[Helpers::class, "yes"],
-				[1,2,3,4],
+				[false, false],
+				[false, false],
 			],
 			[
-				[1,2,3,4],
-				[Helpers::class, "no"],
-				[],
+				[false, null],
+				[false],
 			],
 		];
+	}
+
+	public function provideMaybeNull(){
+		return $this->provider->provideMaybeNull();
 	}
 }

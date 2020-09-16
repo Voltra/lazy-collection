@@ -8,7 +8,7 @@ use LazyCollection\Helpers;
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class FilterTest extends PHPUnit
+class FilterNotTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
@@ -18,9 +18,9 @@ class FilterTest extends PHPUnit
 	 * @param callable $predicate
 	 * @return array
 	 */
-	public function filter(iterable $it, callable $predicate){
+	public function filterNot(iterable $it, callable $predicate){
 		return Stream::fromIterable($it)
-			->filter($predicate)
+			->filterNot($predicate)
 			->toArray();
 	}
 
@@ -31,54 +31,43 @@ class FilterTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
+	 * @covers \LazyCollection\Stream::filterNot
+	 * @dataProvider provideDataSet
 	 *
-	 * @param array $input
+	 * @param iterable $it
 	 * @param callable $predicate
-	 * @param array $expected
+	 * @param iterable $expected
 	 */
-	public function predicateIsCalledOncePerElement(array $input, callable $predicate, array $expected){
-		$count = count($input);
-		$callback = $this->createCallbackMock($this->exactly($count), null, false);
-		$this->filter($input, $callback);
-	}
-
-	/**
-	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
-	 *
-	 * @param array $input
-	 * @param callable $predicate
-	 * @param array $expected
-	 */
-	public function filtersProperlyUsingThePredicate(array $input, callable $predicate, array $expected){
-		$result = $this->filter($input, $predicate);
+	public function properlyFiltersOutElementsThatSatisfyThePredicate(iterable $it, callable $predicate, iterable $expected){
+		$result = $this->filterNot($it, $predicate);
 		$this->assertEquals($expected, $result);
 	}
-
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFilterData(){
+	public function provideDataSet(){
 		return [
 			[
 				[1, 2, 3],
 				function($e){ return $e % 2 === 0; },
+				[1, 3],
+			],
+			[
+				[1, 2, 3],
+				function($e){ return $e % 2 !== 0; },
 				[2],
 			],
 			[
 				[1,2,3,4],
 				[Helpers::class, "yes"],
-				[1,2,3,4],
+				[],
 			],
 			[
 				[1,2,3,4],
 				[Helpers::class, "no"],
-				[],
+				[1,2,3,4],
 			],
 		];
 	}

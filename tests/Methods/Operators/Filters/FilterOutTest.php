@@ -4,23 +4,28 @@
 namespace LazyCollection\Tests\Methods\Operators\Filters;
 
 
-use LazyCollection\Helpers;
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class FilterTest extends PHPUnit
+class FilterOutTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
-	 * @param iterable $it
-	 * @param callable $predicate
-	 * @return array
+	 * @var FilterNotTest
 	 */
-	public function filter(iterable $it, callable $predicate){
+	private $__fnt;
+
+	public function __construct($name = null, array $data = [], $dataName = '')
+	{
+		parent::__construct($name, $data, $dataName);
+		$this->__fnt = new FilterNotTest($name, $data, $dataName);
+	}
+
+	public function filterOut(iterable $it, callable $predicate){
 		return Stream::fromIterable($it)
-			->filter($predicate)
+			->filterOut($predicate)
 			->toArray();
 	}
 
@@ -31,30 +36,15 @@ class FilterTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
-	 *
-	 * @param array $input
-	 * @param callable $predicate
-	 * @param array $expected
-	 */
-	public function predicateIsCalledOncePerElement(array $input, callable $predicate, array $expected){
-		$count = count($input);
-		$callback = $this->createCallbackMock($this->exactly($count), null, false);
-		$this->filter($input, $callback);
-	}
-
-	/**
-	 * @test
-	 * @covers \LazyCollection\Stream::filter
-	 * @dataProvider provideFilterData
+	 * @covers \LazyCollection\Stream::filterOut
+	 * @dataProvider provideDataSet
 	 *
 	 * @param array $input
 	 * @param callable $predicate
 	 * @param array $expected
 	 */
 	public function filtersProperlyUsingThePredicate(array $input, callable $predicate, array $expected){
-		$result = $this->filter($input, $predicate);
+		$result = $this->filterOut($input, $predicate);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -63,23 +53,7 @@ class FilterTest extends PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFilterData(){
-		return [
-			[
-				[1, 2, 3],
-				function($e){ return $e % 2 === 0; },
-				[2],
-			],
-			[
-				[1,2,3,4],
-				[Helpers::class, "yes"],
-				[1,2,3,4],
-			],
-			[
-				[1,2,3,4],
-				[Helpers::class, "no"],
-				[],
-			],
-		];
+	public function provideDataSet(){
+		return $this->__fnt->provideDataSet();
 	}
 }

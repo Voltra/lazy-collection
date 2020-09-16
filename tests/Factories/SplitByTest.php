@@ -26,17 +26,31 @@ class SplitByTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::splitBy
-	 * @dataProvider provideSplitInside
+	 * @covers       \LazyCollection\Stream::splitBy
+	 * @dataProvider provideSplitData
 	 *
 	 * @param string $str
 	 * @param string $sep
+	 * @param bool $rmEmpty
 	 * @param array $expected
 	 */
-	public function splittingInsideGivesTheCorrectParts(string $str, string $sep, array $expected){
+	public function splittingGivesTheCorrectParts(string $str, string $sep, bool $rmEmpty, array $expected){
+		$result = $this->split($str, $sep, $rmEmpty);
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @test
+	 * @covers \LazyCollection\Stream::splitBy
+	 * @dataProvider provideNoOccurence
+	 *
+	 * @param string $str
+	 * @param string $sep
+	 * @param bool $rmEmpty
+	 */
+	public function splittingWithNoOccurenceOfSeparatorGivesBackSingleElementStream(string $str, string $sep, bool $rmEmpty){
 		$result = $this->split($str, $sep);
-		$this->expectOutputString("");
-//		$this->assertEquals($expected, $result);
+		$this->assertEquals([$str], $result);
 	}
 
 
@@ -44,13 +58,57 @@ class SplitByTest extends PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideSplitInside(){
+	public function provideNoOccurence(){
+		return [
+			[
+				"1,2,3",
+				";",
+				true,
+			],
+			[
+				"1,2,3",
+				";",
+				false,
+			],
+		];
+	}
+
+	public function provideSplitData(){
 		return [
 			[
 				"1,2,3",
 				",",
+				true,
 				["1", "2", "3"],
-			]
+			],
+
+			[
+				"1,2,3,",
+				",",
+				true,
+				["1", "2", "3"],
+			],
+
+			[
+				"1,2,3,",
+				",",
+				false,
+				["1", "2", "3", ""],
+			],
+
+			[
+				"1,2,,3,",
+				",",
+				true,
+				["1", "2", "3"],
+			],
+
+			[
+				"1,2,,3,",
+				",",
+				false,
+				["1", "2", "", "3", ""],
+			],
 		];
 	}
 }
