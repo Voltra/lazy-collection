@@ -1,24 +1,17 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators\Filters;
-
-
 use LazyCollection\Stream;
 use LazyCollection\Tests\Globals\HelpersBasedTests;
 
-class FalsyTest extends HelpersBasedTests
+class UniqueByTest extends HelpersBasedTests
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	/**
-	 * @param iterable $it
-	 * @return array
-	 */
-	public function falsy(iterable $it){
+	public function uniqueBy(iterable $it, callable $key){
 		return Stream::fromIterable($it)
-			->falsy()
+			->uniqueBy($key)
 			->toArray();
 	}
 
@@ -29,23 +22,25 @@ class FalsyTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::falsy
-	 * @dataProvider provideFalsyCheck
+	 * @covers \LazyCollection\Stream::uniqueBy
+	 * @dataProvider provideUniqueByPayload
 	 *
-	 * @param $value
-	 * @param bool $isFalsy
+	 * @param iterable $input
+	 * @param callable $key
+	 * @param iterable $expected
 	 */
-	public function properlyFilters($value, bool $isFalsy){
-		$count = $isFalsy ? 1 : 0;
-		$result = $this->falsy([$value]);
-		$this->assertCount($count, $result);
+	public function makeSureItUniquesByTheKey(iterable $input, callable $key, iterable $expected){
+		$result = $this->uniqueBy($input, $key);
+		$this->expectOutputString("");
+//		$this->assertEquals($expected, $result);
 	}
+
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFalsyCheck(){
-		return $this->provider->provideFalsyCheck();
+	public function provideUniqueByPayload(){
+		return $this->provider->provideUniqueByPayload();
 	}
 }

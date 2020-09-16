@@ -1,10 +1,9 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Operators\Filters;
+namespace LazyCollection\Tests\Globals;
 
 
-use LazyCollection\Tests\Globals\HelpersTest;
 use LazyCollection\Tests\PHPUnit;
 
 abstract class HelpersBasedTests extends PHPUnit

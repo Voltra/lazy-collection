@@ -228,7 +228,7 @@ class Stream implements IteratorAggregate {
 			throw new InvalidMethodException("Method $name already exists");
 		}
 
-		static::$methods[$name] = Closure::fromCallable($method);
+		static::$methods[$name] = Closure::bind($method, null, static::class);
 	}
 
 	/**

@@ -86,7 +86,8 @@ Stream::registerMethod("uniqueBy", function(callable $idExtractor): Stream{
 	 * @var Stream $this
 	 */
 	$arr = $this->toArray();
-	return Stream::fromIterable(Helpers::uniqueBy($idExtractor, $arr));
+	//TODO: Fix error "Method fromIterable does not exist"
+	return static::fromIterable(Helpers::uniqueBy($idExtractor, $arr));
 });
 
 Stream::registerMethod("unique", function(): Stream{

@@ -5,6 +5,7 @@ namespace LazyCollection\Tests\Methods\Operators\Filters;
 
 
 use LazyCollection\Stream;
+use LazyCollection\Tests\Globals\HelpersBasedTests;
 
 class TruthyTest extends HelpersBasedTests
 {
