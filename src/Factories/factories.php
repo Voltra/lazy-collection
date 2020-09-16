@@ -3,7 +3,7 @@
 use LazyCollection\Helpers;
 use LazyCollection\Stream;
 
-Stream::registerFactory("fromIterable", function(iterable $it){
+Stream::registerFactory("fromIterable", function(iterable $it, bool $isAssoc = null){
 	/**
 	 * @var $this Stream
 	 * @static Stream
@@ -13,13 +13,14 @@ Stream::registerFactory("fromIterable", function(iterable $it){
 		yield from $it;
 	})();
 
-	$associative = Helpers::isAssoc(Helpers::arrayFromIterable($it));
+	$associative = Helpers::notNull($isAssoc) ? $isAssoc : Helpers::isAssoc(Helpers::arrayFromIterable($it));
 	return new static($gen, $associative);
 });
 
 Stream::registerFactory("range", function(int $start = 0, int $end = null, int $step = 1): Stream{
 	/**
-	 * @var Stream $this
+	 * @var $this Stream
+	 * @static Stream
 	 */
 	$gen = (static function($start, $end, $step){
 		if(Helpers::notNull($end)){
@@ -48,4 +49,16 @@ Stream::registerFactory("range", function(int $start = 0, int $end = null, int $
 	})($start, $end, $step);
 
 	return new static($gen, false);
+});
+
+Stream::registerFactory("splitBy", function(string $str, string $separator = "", bool $removeEmptyStrings = true): Stream{
+	/**
+	 * @var $this Stream
+	 * @static Stream
+	 */
+
+	$split = explode($separator, $str);
+	$predicate = $removeEmptyStrings ? static function(string $e){ return $e !== ""; } : [Helpers::class, "yes"];
+	return static::fromIterable($split)
+		->filter($predicate);
 });

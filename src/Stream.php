@@ -12,8 +12,9 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @package LazyCollection
  *
  *
- * @method static Stream fromIterable(iterable $it) Make a stream from an iterable
- * @method static Stream range(int $start = 0, int $end = null, int $step = 1)
+ * @method static Stream fromIterable(iterable $it, bool $isAssoc = null) Make a stream from an iterable
+ * @method static Stream range(int $start = 0, int $end = null, int $step = 1) Make a stream from a range of integers
+ * @method static Stream splitBy(string $str, string $separator = "", bool $removeEmptyStrings = true) Make a stream by splitting a string in parts
  *
  *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
@@ -141,6 +142,7 @@ class Stream implements IteratorAggregate {
 	/**
 	 * Construct a consumer stream from this stream
 	 * @param callable $generatorFactory A function that accepts the current generator and returns a new generator
+	 * @param bool $associative
 	 * @return self
 	 */
 	protected function pipe(callable $generatorFactory, bool $associative = false): self{
@@ -158,7 +160,7 @@ class Stream implements IteratorAggregate {
 	public function __call(string $name, array $args) {
 		if(static::hasMethod($name)){
 			$closure = static::$methods[$name];
-			return $closure->bindTo($this, static::class)->call($this, ...$args);
+			return $closure->call($this, ...$args);
 		}
 
 		throw new InvalidMethodException("Method $name does not exist");
@@ -176,9 +178,7 @@ class Stream implements IteratorAggregate {
 	public static function __callStatic(string $name, array $args): self {
 		if(static::hasFactory($name)){
 			$closure = static::$factories[$name];
-			return Closure::fromCallable($closure)
-					->bindTo(static::nullInstance(), static::class)
-					->call(static::nullInstance(), ...$args);
+			return $closure(...$args);
 		}
 
 		throw new InvalidFactoryException("Factory $name does not exist");
@@ -242,7 +242,7 @@ class Stream implements IteratorAggregate {
 			throw new InvalidFactoryException("Factory $name already exists");
 		}
 
-		static::$factories[$name] = Closure::fromCallable($factory);
+		static::$factories[$name] = Closure::bind($factory, null, static::class);
 	}
 
 
