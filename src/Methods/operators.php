@@ -183,12 +183,12 @@ Stream::registerMethod("zipWith", function(Stream $it): Stream{
 		$rhsIt = $it->getIterator();
 		while($parent->valid() && $rhsIt->valid()){
 			$lhs = $parent->current();
-			$rhs = $it->current();
+			$rhs = $rhsIt->current();
 
 			yield [$lhs, $rhs];
 
 			$parent->next();
-			$it->next();
+			$rhsIt->next();
 		}
 	});
 });
