@@ -31,8 +31,7 @@ class UniqueByTest extends HelpersBasedTests
 	 */
 	public function makeSureItUniquesByTheKey(iterable $input, callable $key, iterable $expected){
 		$result = $this->uniqueBy($input, $key);
-		$this->expectOutputString("");
-//		$this->assertEquals($expected, $result);
+		$this->assertEquals($expected, $result);
 	}
 
 

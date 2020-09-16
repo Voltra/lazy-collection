@@ -84,10 +84,15 @@ Stream::registerMethod("subStream", function(int $startIndex, int $endIndex): St
 Stream::registerMethod("uniqueBy", function(callable $idExtractor): Stream{
 	/**
 	 * @var Stream $this
+	 * @static Stream
 	 */
 	$arr = $this->toArray();
-	//TODO: Fix error "Method fromIterable does not exist"
-	return static::fromIterable(Helpers::uniqueBy($idExtractor, $arr));
+
+	//INFO: Due to how PHP treats parent:: and className:: calls, we need to construct the stream manually as a workaround
+	return new static((function() use($idExtractor, $arr){
+		$unique = Helpers::uniqueBy($idExtractor, $arr);
+		yield from $unique;
+	})(), Helpers::isAssoc($arr));
 });
 
 Stream::registerMethod("unique", function(): Stream{
@@ -107,7 +112,17 @@ Stream::registerMethod("sortBy", function(callable $idExtractor): Stream{
 	 * @var Stream $this
 	 */
 	$arr = $this->toArray();
-	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_ASC));
+	//INFO: Due to how PHP treats parent:: and className:: calls, we need to construct the stream manually as a workaround
+
+	/*
+	 e.g. this would have been a shorthand if it were possible
+
+		return static::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_ASC));
+	 */
+	return new static((function() use($idExtractor, $arr){
+		$sorted = Helpers::sortBy($idExtractor, $arr, SORT_ASC);
+		yield from $sorted;
+	})(), Helpers::isAssoc($arr));
 });
 
 Stream::registerMethod("sort", function(): Stream{
@@ -122,7 +137,13 @@ Stream::registerMethod("sortByDescending", function(callable $idExtractor): Stre
 	 * @var Stream $this
 	 */
 	$arr = $this->toArray();
-	return Stream::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_DESC));
+
+	//INFO: Due to how PHP treats parent:: and className:: calls, we need to construct the stream manually as a workaround
+//	return static::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_DESC));
+	return new static((function() use($idExtractor, $arr){
+		$sorted = Helpers::sortBy($idExtractor, $arr, SORT_DESC);
+		yield from $sorted;
+	})(), Helpers::isAssoc($arr));
 });
 
 Stream::registerMethod("sortDescending", function(): Stream{
@@ -137,7 +158,12 @@ Stream::registerMethod("sortWith", function(callable $comparator): Stream{
 	 * @var Stream $this
 	 */
 	$arr = $this->toArray();
-	return Stream::fromIterable(Helpers::sortWith($comparator, $arr));
+	//INFO: Due to how PHP treats parent:: and className:: calls, we need to construct the stream manually as a workaround
+//	return static::fromIterable(Helpers::sortWith($comparator, $arr));
+	return new static((function() use($comparator, $arr){
+		$sorted = Helpers::sortWith($comparator, $arr);
+		yield from $sorted;
+	})(), Helpers::isAssoc($arr));
 });
 
 
