@@ -62,3 +62,14 @@ Stream::registerFactory("splitBy", function(string $str, string $separator = "",
 	return static::fromIterable($split)
 		->filter($predicate);
 });
+
+Stream::registerFactory("splitByRegex", function(string $str, string $re, bool $removeEmptyStrings = true): Stream{
+	/**
+	 * @var $this Stream
+	 * @static Stream
+	 */
+
+	$flag = $removeEmptyStrings ? PREG_SPLIT_NO_EMPTY : 0;
+	$split = preg_split($re, $str, -1, $flag);
+	return static::fromIterable($split);
+});

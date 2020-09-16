@@ -4,19 +4,19 @@
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class SplitByTest extends PHPUnit
+class SplitByRegexTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
 	 * @param string $str
-	 * @param string $sep
+	 * @param string $re
 	 * @param bool $rmEmpty
 	 * @return array
 	 */
-	public function split(string $str, string $sep = "", bool $rmEmpty = true){
-		return Stream::splitBy($str, $sep, $rmEmpty)->toArray();
+	public function splitByRegex(string $str, string $re, bool $rmEmpty){
+		return Stream::splitByRegex($str, $re, $rmEmpty)->toArray();
 	}
 
 
@@ -26,22 +26,22 @@ class SplitByTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::splitBy
+	 * @covers       \LazyCollection\Stream::splitByRegex
 	 * @dataProvider provideSplitData
 	 *
 	 * @param string $str
-	 * @param string $sep
+	 * @param string $re
 	 * @param bool $rmEmpty
 	 * @param array $expected
 	 */
-	public function splittingGivesTheCorrectParts(string $str, string $sep, bool $rmEmpty, array $expected){
-		$result = $this->split($str, $sep, $rmEmpty);
+	public function splittingGivesTheCorrectParts(string $str, string $re, bool $rmEmpty, array $expected){
+		$result = $this->splitByRegex($str, $re, $rmEmpty);
 		$this->assertEquals($expected, $result);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::splitBy
+	 * @covers \LazyCollection\Stream::splitByRegex
 	 * @dataProvider provideNoOccurrences
 	 *
 	 * @param string $str
@@ -49,7 +49,7 @@ class SplitByTest extends PHPUnit
 	 * @param bool $rmEmpty
 	 */
 	public function splittingWithNoOccurenceOfSeparatorGivesBackSingleElementStream(string $str, string $sep, bool $rmEmpty){
-		$result = $this->split($str, $sep, $rmEmpty);
+		$result = $this->splitByRegex($str, $sep, $rmEmpty);
 		$this->assertEquals([$str], $result);
 	}
 
@@ -62,12 +62,12 @@ class SplitByTest extends PHPUnit
 		return [
 			[
 				"1,2,3",
-				";",
+				"/\s*;\s*/",
 				true,
 			],
 			[
 				"1,2,3",
-				";",
+				"/\s*;\s*/",
 				false,
 			],
 		];
@@ -76,36 +76,36 @@ class SplitByTest extends PHPUnit
 	public function provideSplitData(){
 		return [
 			[
-				"1,2,3",
-				",",
+				"1  , 2, 3",
+				"/\s*,\s*/",
 				true,
 				["1", "2", "3"],
 			],
 
 			[
-				"1,2,3,",
-				",",
+				"1, 2  , 3 ,  ",
+				"/\s*,\s*/",
 				true,
 				["1", "2", "3"],
 			],
 
 			[
-				"1,2,3,",
-				",",
+				"1, 2 , 3,",
+				"/\s*,\s*/",
 				false,
 				["1", "2", "3", ""],
 			],
 
 			[
-				"1,2,,3,",
-				",",
+				"1 ,  2,   , 3,",
+				"/\s*,\s*/",
 				true,
 				["1", "2", "3"],
 			],
 
 			[
 				"1,2,,3,",
-				",",
+				"/\s*,\s*/",
 				false,
 				["1", "2", "", "3", ""],
 			],

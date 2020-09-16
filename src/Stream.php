@@ -15,6 +15,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method static Stream fromIterable(iterable $it, bool $isAssoc = null) Make a stream from an iterable
  * @method static Stream range(int $start = 0, int $end = null, int $step = 1) Make a stream from a range of integers
  * @method static Stream splitBy(string $str, string $separator = "", bool $removeEmptyStrings = true) Make a stream by splitting a string in parts
+ * @method static Stream splitByRegex(string $str, string $re, bool $removeEmptyStrings = true) Make a stream by splitting a string in parts using a regular expression
  *
  *
  * @method Stream map(callable $mapper) Transform each value using the mapper function
