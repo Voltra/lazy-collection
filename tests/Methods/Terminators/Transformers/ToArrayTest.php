@@ -1,12 +1,13 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\Terminators;
+namespace LazyCollection\Tests\Methods\Terminators\Transformers;
 
 
 use LazyCollection\Stream;
+use LazyCollection\Tests\PHPUnit;
 
-class ToArrayTest extends \LazyCollection\Tests\PHPUnit
+class ToArrayTest extends PHPUnit
 {
     /**
      * @test

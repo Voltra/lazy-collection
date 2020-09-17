@@ -141,7 +141,7 @@ Stream::registerMethod("sortByDescending", function(callable $idExtractor): Stre
 	//INFO: Due to how PHP treats parent:: and className:: calls, we need to construct the stream manually as a workaround
 //	return static::fromIterable(Helpers::sortBy($idExtractor, $arr, SORT_DESC));
 	return new static((function() use($idExtractor, $arr){
-		$sorted = Helpers::sortBy($idExtractor, $arr, SORT_DESC);
+		$sorted = Helpers::sortBy($idExtractor, $arr, SORT_REGULAR|SORT_DESC);
 		yield from $sorted;
 	})(), Helpers::isAssoc($arr));
 });

@@ -233,7 +233,12 @@ abstract class Helpers {
 	 * @return mixed
 	 */
 	public static function doSort(array $array, int $flags = SORT_REGULAR){
-		/*$didSort =*/ sort($array, $flags);
+		if($flags & SORT_DESC){
+			/*$didSort =*/ rsort($array, $flags);
+		}else{
+			/*$didSort =*/ sort($array, $flags);
+		}
+
 		return $array;
 	}
 

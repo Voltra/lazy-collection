@@ -280,6 +280,17 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
+	 * @covers \LazyCollection\Helpers::doSort
+	 */
+	public function associativeInplaceSortCanSortDescending(){
+		$input = [1, 5, 2];
+		$expected = [5, 2, 1];
+		$result = Helpers::doSort($input, SORT_DESC);
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @test
 	 * @covers \LazyCollection\Helpers::sortWith
 	 * @dataProvider provideSortWithPayload
 	 *
