@@ -8,8 +8,9 @@ use LazyCollection\Exceptions\InvalidFactoryException;
 use LazyCollection\Exceptions\InvalidMethodException;
 
 /**
- * Represents a stream of data
+ * Class Stream
  * @package LazyCollection
+ * Represents a stream of data
  *
  *
  * @method static Stream fromIterable(iterable $it, bool $isAssoc = null) Make a stream from an iterable

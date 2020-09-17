@@ -4,6 +4,10 @@
 namespace LazyCollection;
 
 
+/**
+ * Class Helpers
+ * @package LazyCollection
+ */
 abstract class Helpers {
 	/**
 	 * Determine whether or not the given value is iterable
