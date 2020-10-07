@@ -8,6 +8,7 @@ use Jasny\PHPUnit\CallbackMockTrait;
 use Jasny\PHPUnit\ExpectWarningTrait;
 use Jasny\PHPUnit\PrivateAccessTrait;
 use Jasny\PHPUnit\SafeMocksTrait;
+use LazyCollection\Stream;
 use phpmock\phpunit\PHPMock;
 use PHPUnit\Framework\TestCase;
 

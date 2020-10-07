@@ -69,9 +69,9 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method array groupBy(callable $keyExtractor) Group an array of associative arrays into an associative array of arrays
  * @method string join(array $options) Join to string using prefix, separator, suffix, stringifier, strlen and substr options
  * @method array partition(callable $predicate) Partitions the values based on the predicate (true is left, false is right)
- * @method number|null sum() Computes the sum of all the elements
- * @method number|null sumBy(callable $mapper) Computes the sum of all the mapped elements
- * @method number|null average() Computes the average of all the elements
+ * @method number|null sum(mixed $init = null) Computes the sum of all the elements
+ * @method number|null sumBy(callable $mapper, mixed $init = null) Computes the sum of all the mapped elements
+ * @method number average() Computes the average of all the elements
  * @method array unzip() Unzips a stream of pair into a pair of arrays
  *
  * @method bool all(callable $predicate) Determine whether or not all the elements satisfy the predicate

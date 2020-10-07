@@ -1,5 +1,6 @@
 <?php
 
+namespace LazyCollection\Tests\Factories;
 
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;

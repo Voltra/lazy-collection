@@ -156,20 +156,20 @@ Stream::registerMethod("partition", function(callable $predicate): array{
 	return $ret;
 });
 
-Stream::registerMethod("sum", function(){
+Stream::registerMethod("sum", function($init = null){
 	/**
 	 * @var Stream $this
 	 */
 	return $this->reduce(static function($acc, $elem){
 		return $acc + $elem;
-	});
+	}, $init);
 });
 
-Stream::registerMethod("sumBy", function(callable $mapper){
+Stream::registerMethod("sumBy", function(callable $mapper, $init = null){
 	/**
 	 * @var Stream $this
 	 */
-	return $this->map($mapper)->sum();
+	return $this->map($mapper)->sum($init);
 });
 
 Stream::registerMethod("average", function(){
@@ -177,12 +177,11 @@ Stream::registerMethod("average", function(){
 	 * @var Stream $this
 	 */
 	$i = 0;
-	return $this->reduce(static function($acc, $elem) use(&$i){
-		//cf. http://www.heikohoffmann.de/htmlthesis/node134.html
-		// For iterative average
-		$i++;
-		return $elem + (1/$i) * ($acc - $elem);
-	});
+	return $this->reduce(function($acc, $elem) use(&$i){
+		//cf. https://stackoverflow.com/a/5984099/7316365
+		$key = $i++;
+		return (($acc * $key) + $elem) / $i;
+	}, 0);
 });
 
 Stream::registerMethod("unzip", function(): array{
