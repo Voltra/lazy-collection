@@ -1,4 +1,5 @@
 <?php
+
 namespace LazyCollection;
 
 use Closure;
@@ -8,9 +9,8 @@ use LazyCollection\Exceptions\InvalidFactoryException;
 use LazyCollection\Exceptions\InvalidMethodException;
 
 /**
- * Class Stream
- * @package LazyCollection
  * Represents a stream of data
+ * @package LazyCollection
  *
  *
  * @method static Stream fromIterable(iterable $it, bool $isAssoc = null) Make a stream from an iterable
@@ -188,9 +188,11 @@ class Stream implements IteratorAggregate {
 
 
 	protected static function nullInstance(): Stream{
-		return new static((static function(){
+		$nullGen = static function(){
 			yield null;
-		})());
+		};
+
+		return new static($nullGen());
 	}
 
 

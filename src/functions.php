@@ -4,7 +4,7 @@ namespace LazyCollection;
 
 if(!function_exists("collect")){
 	/**
-	 * Collect the spread arguments into a stream	 *
+	 * Collect the spread arguments into a stream
 	 * @param mixed ...$args
 	 * @return Stream
 	 */
