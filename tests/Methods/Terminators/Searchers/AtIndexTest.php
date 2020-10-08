@@ -7,13 +7,13 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 use LazyCollection\Exceptions\NotFoundException;
 use LazyCollection\Stream;
 
-class FirstTest extends \LazyCollection\Tests\PHPUnit
+class AtIndexTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function first(iterable $it, callable $predicate = null){
-		return Stream::fromIterable($it)->first($predicate);
+	public function atIndex(iterable $it, int $index){
+		return Stream::fromIterable($it)->atIndex($index);
 	}
 
 
@@ -23,58 +23,64 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::first
-	 * @dataProvider provideFirstData
+	 * @covers       \LazyCollection\Stream::last
+	 * @dataProvider provideAtIndexData
 	 *
 	 * @param iterable $input
-	 * @param callable|null $predicate
+	 * @param int $index
 	 * @param $expected
 	 */
-	public function properlyReturnFirst(iterable $input, ?callable $predicate, $expected){
-		$value = $this->first($input, $predicate);
+	public function properlyReturnItemAtIndex(iterable $input, int $index, $expected){
+		$value = $this->atIndex($input, $index);
 		$this->assertEquals($expected, $value);
 	}
 
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::first
-	 * @dataProvider provideFirstFailData
+	 * @covers       \LazyCollection\Stream::last
+	 * @dataProvider provideAtIndexFailData
 	 *
 	 * @param iterable $input
-	 * @param callable|null $predicate
+	 * @param int $index
 	 */
-	public function failsProperlyIfThereIsNoItem(iterable $input, callable $predicate = null){
+	public function failsProperlyIfThereIsNoItem(iterable $input, int $index){
 		$this->expectException(NotFoundException::class);
-		$this->first($input, $predicate);
+		$this->atIndex($input, $index);
 	}
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFirstData(){
+	public function provideAtIndexData(){
 		return [
 			[
 				[1], // $input
-				null, // $predicate
+				0, // $index
 				1, // $expected
 			],
 			[
-				[1,2,3], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
+				[1, 2, 3, 4, 5], // $input
+				2, // $index
+				3, // $expected
+			],
+			[
+				[1, 2, 3, 4], // $input
+				1, // $index
 				2, // $expected
 			],
 		];
 	}
 
-	public function provideFirstFailData(){
+	public function provideAtIndexFailData(){
 		return [
 			[
-				[],
+				[], // $input
+				0, // $index
 			],
 			[
 				[1, 3, 5],
-				function($x){ return $x % 2 === 0; },
+				14,
 			],
 		];
 	}

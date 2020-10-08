@@ -7,13 +7,13 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 use LazyCollection\Exceptions\NotFoundException;
 use LazyCollection\Stream;
 
-class FirstTest extends \LazyCollection\Tests\PHPUnit
+class LastTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function first(iterable $it, callable $predicate = null){
-		return Stream::fromIterable($it)->first($predicate);
+	public function last(iterable $it, callable $predicate = null){
+		return Stream::fromIterable($it)->last($predicate);
 	}
 
 
@@ -23,36 +23,36 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::first
-	 * @dataProvider provideFirstData
+	 * @covers       \LazyCollection\Stream::last
+	 * @dataProvider provideLastData
 	 *
 	 * @param iterable $input
 	 * @param callable|null $predicate
 	 * @param $expected
 	 */
-	public function properlyReturnFirst(iterable $input, ?callable $predicate, $expected){
-		$value = $this->first($input, $predicate);
+	public function properlyReturnLast(iterable $input, ?callable $predicate, $expected){
+		$value = $this->last($input, $predicate);
 		$this->assertEquals($expected, $value);
 	}
 
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::first
-	 * @dataProvider provideFirstFailData
+	 * @covers \LazyCollection\Stream::last
+	 * @dataProvider provideLastFailData
 	 *
 	 * @param iterable $input
 	 * @param callable|null $predicate
 	 */
 	public function failsProperlyIfThereIsNoItem(iterable $input, callable $predicate = null){
 		$this->expectException(NotFoundException::class);
-		$this->first($input, $predicate);
+		$this->last($input, $predicate);
 	}
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideFirstData(){
+	public function provideLastData(){
 		return [
 			[
 				[1], // $input
@@ -60,14 +60,19 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 				1, // $expected
 			],
 			[
+				[1, 2, 3, 4], // $input
+				null, // $predicate
+				4, // $expected
+			],
+			[
 				[1,2,3], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
-				2, // $expected
+				function($x){ return $x % 2 !== 0; }, // $predicate
+				3, // $expected
 			],
 		];
 	}
 
-	public function provideFirstFailData(){
+	public function provideLastFailData(){
 		return [
 			[
 				[],

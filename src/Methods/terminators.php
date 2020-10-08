@@ -326,7 +326,7 @@ Stream::registerMethod("atIndex", function(int $i){
 	 * @var Stream $this
 	 */
 	$cur = 0;
-	return $this->first(static function() use(&$cur, $i): bool{
+	return $this->first(function() use(&$cur, $i): bool{
 		return $cur++ === $i;
 	});
 });

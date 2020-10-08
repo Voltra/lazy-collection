@@ -4,16 +4,26 @@
 namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 
-use LazyCollection\Exceptions\NotFoundException;
 use LazyCollection\Stream;
 
-class FirstTest extends \LazyCollection\Tests\PHPUnit
+class FirstOrNullTest extends \LazyCollection\Tests\PHPUnit
 {
+	/**
+	 * @var FirstTest
+	 */
+	protected $firstProvider;
+
+	public function __construct($name = null, array $data = [], $dataName = '')
+	{
+		parent::__construct($name, $data, $dataName);
+		$this->firstProvider = new FirstTest($name, $data, $dataName);
+	}
+
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function first(iterable $it, callable $predicate = null){
-		return Stream::fromIterable($it)->first($predicate);
+	public function firstOrNull(iterable $it, callable $predicate = null){
+		return Stream::fromIterable($it)->firstOrNull($predicate);
 	}
 
 
@@ -23,58 +33,45 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::first
+	 * @covers \LazyCollection\Stream::firstOrNull
 	 * @dataProvider provideFirstData
 	 *
 	 * @param iterable $input
 	 * @param callable|null $predicate
 	 * @param $expected
 	 */
-	public function properlyReturnFirst(iterable $input, ?callable $predicate, $expected){
-		$value = $this->first($input, $predicate);
+	public function returnsFirstIfItExist(iterable $input, ?callable $predicate, $expected){
+		$value = $this->firstOrNull($input, $predicate);
 		$this->assertEquals($expected, $value);
 	}
 
-
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::first
-	 * @dataProvider provideFirstFailData
+	 * @covers \LazyCollection\Stream::firstOrNull
+	 * @dataProvider provideFailFirstData
 	 *
 	 * @param iterable $input
 	 * @param callable|null $predicate
 	 */
-	public function failsProperlyIfThereIsNoItem(iterable $input, callable $predicate = null){
-		$this->expectException(NotFoundException::class);
-		$this->first($input, $predicate);
+	public function returnsNullIfThereIsNoFirst(iterable $input, ?callable $predicate){
+		$value = $this->firstOrNull($input, $predicate);
+		$this->assertNull($value);
 	}
+
+
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
 	public function provideFirstData(){
-		return [
-			[
-				[1], // $input
-				null, // $predicate
-				1, // $expected
-			],
-			[
-				[1,2,3], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
-				2, // $expected
-			],
-		];
+		return $this->firstProvider->provideFirstData();
 	}
 
-	public function provideFirstFailData(){
+	public function provideFailFirstData(){
 		return [
 			[
-				[],
-			],
-			[
-				[1, 3, 5],
-				function($x){ return $x % 2 === 0; },
+				[1, 2, 3],
+				function($x){ return $x > 4; },
 			],
 		];
 	}
