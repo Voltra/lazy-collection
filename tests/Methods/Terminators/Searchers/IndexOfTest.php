@@ -6,13 +6,14 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
+class IndexOfTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function indexOfFirst(iterable $it, callable $predicate){
-		return Stream::fromIterable($it)->indexOfFirst($predicate);
+	public function indexOf(iterable $it, $elem){
+		return Stream::fromIterable($it)
+			->indexOf($elem);
 	}
 
 
@@ -22,43 +23,42 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
-	 * @dataProvider provideIndexOfFirstData
+	 * @covers \LazyCollection\Stream::indexOf
+	 * @dataProvider provideIndexOfData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param $needle
 	 * @param int $expected
 	 */
-	public function returnsProperIndex(iterable $input, callable $predicate, int $expected){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function returnsCorrectIndexIfExist(iterable $input, $needle, int $expected){
+		$value = $this->indexOf($input, $needle);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @covers \LazyCollection\Stream::indexOf
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param $needle
 	 */
-	public function returnsMinusOneOnFailure(iterable $input, callable $predicate){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function returnsMinusOnIfDoesNotExist(iterable $input, $needle){
+		$value = $this->indexOf($input, $needle);
 		$expected = -1;
 		$this->assertEquals($expected, $value);
 	}
 
 
-
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideIndexOfFirstData(){
+	public function provideIndexOfData(){
 		return [
 			[
 				[1, 2, 3], // $input
-				function($x){ return $x < 4; }, // $predicate
-				0, // $expected
+				3, // $needle
+				2, // $expected
 			],
 		];
 	}
@@ -67,11 +67,11 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 		return [
 			[
 				[], // $input
-				function($x){ return true; }, // $predicate
+				3, // $needle
 			],
 			[
-				[1, 3, 5], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
+				[1, 8, 22],
+				2,
 			],
 		];
 	}

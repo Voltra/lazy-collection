@@ -6,13 +6,25 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
+class LastIndexOfTest extends \LazyCollection\Tests\PHPUnit
 {
+	/**
+	 * @var IndexOfTest
+	 */
+	protected $indexOfProvider;
+
+	public function __construct($name = null, array $data = [], $dataName = '')
+	{
+		parent::__construct($name, $data, $dataName);
+		$this->indexOfProvider = new IndexOfTest($name, $data, $dataName);
+	}
+
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function indexOfFirst(iterable $it, callable $predicate){
-		return Stream::fromIterable($it)->indexOfFirst($predicate);
+	public function lastIndexOf(iterable $it, $elem){
+		return Stream::fromIterable($it)
+			->lastIndexOf($elem);
 	}
 
 
@@ -22,57 +34,47 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
-	 * @dataProvider provideIndexOfFirstData
+	 * @covers \LazyCollection\Stream::lastIndexOf
+	 * @dataProvider provideIndexOfData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param $needle
 	 * @param int $expected
 	 */
-	public function returnsProperIndex(iterable $input, callable $predicate, int $expected){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function returnsCorrectIndexIfExist(iterable $input, $needle, int $expected){
+		$value = $this->lastIndexOf($input, $needle);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @covers \LazyCollection\Stream::lastIndexOf
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param $needle
 	 */
-	public function returnsMinusOneOnFailure(iterable $input, callable $predicate){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function returnsMinusOnIfDoesNotExist(iterable $input, $needle){
+		$value = $this->lastIndexOf($input, $needle);
 		$expected = -1;
 		$this->assertEquals($expected, $value);
 	}
 
 
-
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideIndexOfFirstData(){
+	public function provideIndexOfData(){
 		return [
 			[
-				[1, 2, 3], // $input
-				function($x){ return $x < 4; }, // $predicate
-				0, // $expected
+				[1, 2, 3, 4, 3, 5], // $input
+				3, // $needle
+				4, // $expected
 			],
 		];
 	}
 
 	public function provideFailureData(){
-		return [
-			[
-				[], // $input
-				function($x){ return true; }, // $predicate
-			],
-			[
-				[1, 3, 5], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
-			],
-		];
+		return $this->indexOfProvider->provideFailureData();
 	}
 }

@@ -6,15 +6,14 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
+class MaxByTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function indexOfFirst(iterable $it, callable $predicate){
-		return Stream::fromIterable($it)->indexOfFirst($predicate);
+	public function maxBy(iterable $it, callable $mapper){
+		return Stream::fromIterable($it)->maxBy($mapper);
 	}
-
 
 
 	/******************************************************************************************************************\
@@ -22,29 +21,29 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
-	 * @dataProvider provideIndexOfFirstData
+	 * @covers \LazyCollection\Stream::maxBy
+	 * @dataProvider provideMaxByData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
-	 * @param int $expected
+	 * @param callable $mapper
+	 * @param $expected
 	 */
-	public function returnsProperIndex(iterable $input, callable $predicate, int $expected){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function properlyReturnsMax(iterable $input, callable $mapper, $expected){
+		$value = $this->maxBy($input, $mapper);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @covers \LazyCollection\Stream::maxBy
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param callable $mapper
 	 */
-	public function returnsMinusOneOnFailure(iterable $input, callable $predicate){
-		$value = $this->indexOfFirst($input, $predicate);
-		$expected = -1;
+	public function properlyReturnsNullIfEmpty(iterable $input, callable $mapper){
+		$value = $this->maxBy($input, $mapper);
+		$expected = null;
 		$this->assertEquals($expected, $value);
 	}
 
@@ -53,12 +52,17 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideIndexOfFirstData(){
+	public function provideMaxByData(){
 		return [
 			[
-				[1, 2, 3], // $input
-				function($x){ return $x < 4; }, // $predicate
-				0, // $expected
+				[1, 5, 12, 21, 18, 9], // $input
+				function($x){ return $x; }, // $mapper
+				21, // $expected
+			],
+			[
+				[1, 5, 12, 21, 18, 9],
+				function($x){ return 1 / (float)$x; },
+				1,
 			],
 		];
 	}
@@ -66,12 +70,8 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	public function provideFailureData(){
 		return [
 			[
-				[], // $input
-				function($x){ return true; }, // $predicate
-			],
-			[
-				[1, 3, 5], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
+				[],
+				function($x){ return $x; },
 			],
 		];
 	}

@@ -403,7 +403,7 @@ Stream::registerMethod("maxBy", function(callable $mapper){
 	/**
 	 * @var Stream $this
 	 */
-	return $this->reduce(static function($acc, $elem) use($mapper) {
+	return $this->reduce(function($acc, $elem) use($mapper) {
 		$value = $mapper($elem);
 		$vacc = $mapper($acc);
 		return Helpers::cmp($value, $vacc) > 0 ? $elem : $acc;

@@ -91,6 +91,7 @@ use LazyCollection\Exceptions\InvalidMethodException;
  * @method int indexOfFirst(callable $predicate) Get the index of the first element that satisfies the predicate, or -1
  * @method int indexOf(mixed $needle) Get the first index of the $needle, or -1
  * @method int indexOfLast(callable $predicate) Get the index of the last element that satisfies the predicate, or -1
+ * @method int lastIndexOf(mixed $needle) Get the last index of the $needle, or -1
  * @method mixed|null maxBy(callable $mapper) Get the max value determined by comparing mapped values
  * @method mixed|null max() Get the max value
  * @method mixed|null maxWith(callable $comparator) Get the max value using a custom comparator

@@ -6,13 +6,24 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
+class IndexOfLastTest extends \LazyCollection\Tests\PHPUnit
 {
+	/**
+	 * @var IndexOfFirstTest
+	 */
+	protected $indexOfFirstProvider;
+
+	public function __construct($name = null, array $data = [], $dataName = '')
+	{
+		parent::__construct($name, $data, $dataName);
+		$this->indexOfFirstProvider = new IndexOfFirstTest($name, $data, $dataName);
+	}
+
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function indexOfFirst(iterable $it, callable $predicate){
-		return Stream::fromIterable($it)->indexOfFirst($predicate);
+	public function indexOfLast(iterable $it, callable $predicate){
+		return Stream::fromIterable($it)->indexOfLast($predicate);
 	}
 
 
@@ -22,28 +33,28 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
-	 * @dataProvider provideIndexOfFirstData
+	 * @covers \LazyCollection\Stream::indexOfLast
+	 * @dataProvider provideIndexOfLastData
 	 *
 	 * @param iterable $input
 	 * @param callable $predicate
 	 * @param int $expected
 	 */
 	public function returnsProperIndex(iterable $input, callable $predicate, int $expected){
-		$value = $this->indexOfFirst($input, $predicate);
+		$value = $this->indexOfLast($input, $predicate);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @covers \LazyCollection\Stream::indexOfLast
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
 	 * @param callable $predicate
 	 */
 	public function returnsMinusOneOnFailure(iterable $input, callable $predicate){
-		$value = $this->indexOfFirst($input, $predicate);
+		$value = $this->indexOfLast($input, $predicate);
 		$expected = -1;
 		$this->assertEquals($expected, $value);
 	}
@@ -53,26 +64,17 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideIndexOfFirstData(){
+	public function provideIndexOfLastData(){
 		return [
 			[
 				[1, 2, 3], // $input
 				function($x){ return $x < 4; }, // $predicate
-				0, // $expected
+				2, // $expected
 			],
 		];
 	}
 
 	public function provideFailureData(){
-		return [
-			[
-				[], // $input
-				function($x){ return true; }, // $predicate
-			],
-			[
-				[1, 3, 5], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
-			],
-		];
+		return $this->indexOfFirstProvider->provideFailureData();
 	}
 }

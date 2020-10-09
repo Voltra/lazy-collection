@@ -6,13 +6,13 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
+class MaxWithTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function indexOfFirst(iterable $it, callable $predicate){
-		return Stream::fromIterable($it)->indexOfFirst($predicate);
+	public function maxWith(iterable $it, callable $comparator){
+		return Stream::fromIterable($it)->maxWith($comparator);
 	}
 
 
@@ -22,29 +22,29 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
-	 * @dataProvider provideIndexOfFirstData
+	 * @covers \LazyCollection\Stream::maxWith
+	 * @dataProvider provideMaxWithData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
-	 * @param int $expected
+	 * @param callable $comparator
+	 * @param $expected
 	 */
-	public function returnsProperIndex(iterable $input, callable $predicate, int $expected){
-		$value = $this->indexOfFirst($input, $predicate);
+	public function properlyComparesMax(iterable $input, callable $comparator, $expected){
+		$value = $this->maxWith($input, $comparator);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @covers \LazyCollection\Stream::maxWith
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param callable $comparator
 	 */
-	public function returnsMinusOneOnFailure(iterable $input, callable $predicate){
-		$value = $this->indexOfFirst($input, $predicate);
-		$expected = -1;
+	public function properlyReturnsNullIfNoData(iterable $input, callable $comparator){
+		$expected = null;
+		$value = $this->maxWith($input, $comparator);
 		$this->assertEquals($expected, $value);
 	}
 
@@ -53,12 +53,12 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideIndexOfFirstData(){
+	public function provideMaxWithData(){
 		return [
 			[
-				[1, 2, 3], // $input
-				function($x){ return $x < 4; }, // $predicate
-				0, // $expected
+				[1, 2, 3],
+				function($lhs, $rhs){ return $lhs <=> $rhs; },
+				3,
 			],
 		];
 	}
@@ -66,12 +66,8 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	public function provideFailureData(){
 		return [
 			[
-				[], // $input
-				function($x){ return true; }, // $predicate
-			],
-			[
-				[1, 3, 5], // $input
-				function($x){ return $x % 2 === 0; }, // $predicate
+				[],
+				function($lhs, $rhs){ return $lhs <=> $rhs; },
 			],
 		];
 	}
