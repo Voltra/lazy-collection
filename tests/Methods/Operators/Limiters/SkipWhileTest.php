@@ -1,13 +1,13 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\StatefulOperators\Limiters;
+namespace LazyCollection\Tests\Methods\Operators\Limiters;
 
 
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class TakeWhileTest extends PHPUnit
+class SkipWhileTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
@@ -17,9 +17,9 @@ class TakeWhileTest extends PHPUnit
 	 * @param callable $predicate
 	 * @return array
 	 */
-	public function takeWhile(iterable $it, callable $predicate){
+	public function skipWhile(iterable $it, callable $predicate){
 		return Stream::fromIterable($it)
-			->takeWhile($predicate)
+			->skipWhile($predicate)
 			->toArray();
 	}
 
@@ -30,15 +30,15 @@ class TakeWhileTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::takeWhile
-	 * @dataProvider provideTakeWhileData
+	 * @cover \LazyCollection\Stream::skipWhile
+	 * @dataProvider provideSkipWhileData
 	 *
 	 * @param iterable $input
 	 * @param callable $predicate
 	 * @param iterable $expected
 	 */
-	public function properlyTakesElementWhileThePredicateIsFulfilled(iterable $input, callable $predicate, iterable $expected){
-		$result = $this->takeWhile($input, $predicate);
+	public function properlySkipsElementWhileThePredicateIsFulfilled(iterable $input, callable $predicate, iterable $expected){
+		$result = $this->skipWhile($input, $predicate);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -47,17 +47,17 @@ class TakeWhileTest extends PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideTakeWhileData(){
+	public function provideSkipWhileData(){
 		return [
 			[
 				[1, 2, 3, 4, 5, 6],
 				function($e){ return $e < 5; },
-				[1, 2, 3, 4],
+				[5, 6],
 			],
 			[
 				[2, 4, 3, 4],
 				function($e){ return $e % 2 === 0; },
-				[2, 4],
+				[3, 4],
 			],
 		];
 	}

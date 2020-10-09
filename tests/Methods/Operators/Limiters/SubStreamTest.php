@@ -1,28 +1,27 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\StatefulOperators\Limiters;
+namespace LazyCollection\Tests\Methods\Operators\Limiters;
 
 
 use LazyCollection\Stream;
-use LazyCollection\Tests\PHPUnit;
 
-class SkipUntilTest extends PHPUnit
+class SubStreamTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
 	 * @param iterable $it
-	 * @param callable $predicate
+	 * @param int $startIndex
+	 * @param int $endIndex
 	 * @return array
 	 */
-	public function skipUntil(iterable $it, callable $predicate){
+	public function subStream(iterable $it, int $startIndex, int $endIndex){
 		return Stream::fromIterable($it)
-			->skipUntil($predicate)
+			->subStream($startIndex, $endIndex)
 			->toArray();
 	}
-
 
 
 	/******************************************************************************************************************\
@@ -30,15 +29,16 @@ class SkipUntilTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::skipUntil
-	 * @dataProvider provideSkipUntilData
+	 * @cover \LazyCollection\Stream::subStream
+	 * @dataProvider provideSubStreamData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param int $startIndex
+	 * @param int $endIndex
 	 * @param iterable $expected
 	 */
-	public function properlySkipsElementUntilThePredicateIsFulfilled(iterable $input, callable $predicate, iterable $expected){
-		$result = $this->skipUntil($input, $predicate);
+	public function createProperSubstream(iterable $input, int $startIndex, int $endIndex, iterable $expected){
+		$result = $this->subStream($input, $startIndex, $endIndex);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -47,17 +47,32 @@ class SkipUntilTest extends PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideSkipUntilData(){
+	public function provideSubStreamData(){
 		return [
 			[
-				[1, 2, 3, 4, 5, 6],
-				function($e){ return $e >= 5; },
-				[5, 6],
+				[1, 2, 3, 4, 5, 6, 7, 8],
+				1, 3,
+				[2, 3],
 			],
 			[
-				[2, 4, 3, 4],
-				function($e){ return $e % 2 !== 0; },
-				[3, 4],
+				[1, 2, 3, 4],
+				3, 6,
+				[4],
+			],
+			[
+				[1, 2, 3, 4, 5, 6, 7, 8],
+				42, 69,
+				[],
+			],
+			[
+				[1, 2, 3, 4, 5, 6, 7, 8],
+				-1, 2,
+				[1, 2, 3],
+			],
+			[
+				[1, 2, 3, 4],
+				1, -1,
+				[],
 			],
 		];
 	}

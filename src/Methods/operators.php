@@ -192,3 +192,83 @@ Stream::registerMethod("zipWith", function(Stream $it): Stream{
 		}
 	});
 });
+
+
+
+/**********************************************************************************************************************\
+ * Limiters
+\**********************************************************************************************************************/
+Stream::registerMethod("takeWhile", function(callable $predicate): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->pipe(static function(Generator $parent) use($predicate){
+		foreach ($parent as $key => $value){
+			if($predicate($value, $key)) {
+				yield $key => $value;
+			}
+			else {
+				break;
+			}
+		}
+	});
+});
+
+Stream::registerMethod("takeUntil", function(callable $predicate): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->takeWhile(Helpers::negate($predicate));
+});
+
+Stream::registerMethod("take", function(int $maxAmount): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$count = 0;
+	return $this->takeWhile(static function() use (&$count, $maxAmount): bool{
+		return $count++ < $maxAmount;
+	});
+});
+
+Stream::registerMethod("skipWhile", function(callable $predicate): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->pipe(static function(Generator $parent) use($predicate){
+		$skip = true;
+		foreach ($parent as $key => $value){
+			if($skip && $predicate($value, $key)) {
+				continue;
+			}
+
+			$skip = false;
+			yield $key => $value;
+		}
+	});
+});
+
+Stream::registerMethod("skipUntil", function (callable $predicate): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	return $this->skipWhile(Helpers::negate($predicate));
+});
+
+Stream::registerMethod("skip", function(int $maxAmount): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$count = 0;
+	return $this->skipWhile(static function() use(&$count, $maxAmount){
+		return $count++ < $maxAmount;
+	});
+});
+
+Stream::registerMethod("subStream", function(int $startIndex, int $endIndex): Stream{
+	/**
+	 * @var Stream $this
+	 */
+	$take = $endIndex - $startIndex;
+	return $this->skip($startIndex)->take($take);
+});

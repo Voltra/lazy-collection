@@ -48,3 +48,29 @@ if(!function_exists("range")){
         return Stream::range($begin, $end, $step);
     }
 }
+
+if(!function_exists("splitBy")){
+	/**
+	 * Make a stream by splitting a string in parts
+	 * @param string $str - The string to split
+	 * @param string $separator - The separator to split by
+	 * @param bool $removeEmptyStrings - Whether or not it should remove empty strings from the resulting stream
+	 * @return Stream
+	 */
+	function splitBy(string $str, string $separator = "", bool $removeEmptyStrings = true){
+		return Stream::splitBy($str, $separator, $removeEmptyStrings);
+	}
+}
+
+if(!function_exists("splitByRegex")){
+	/**
+	 * Make a stream by splitting a string in parts using a regular expression
+	 * @param string $str - The string to split
+	 * @param string $re - The regular expression to split by (cf. {@link https://www.php.net/manual/function.preg-split})
+	 * @param bool $removeEmptyStrings - Whether or not it should remove empty strings from the resulting stream
+	 * @return Stream
+	 */
+	function splitByRegex(string $str, string $re, bool $removeEmptyStrings = true){
+		return Stream::splitByRegex($str, $re, $removeEmptyStrings);
+	}
+}

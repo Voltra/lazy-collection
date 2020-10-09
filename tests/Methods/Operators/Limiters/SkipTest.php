@@ -1,25 +1,25 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\StatefulOperators\Limiters;
+namespace LazyCollection\Tests\Methods\Operators\Limiters;
 
 
 use LazyCollection\Stream;
 use LazyCollection\Tests\PHPUnit;
 
-class SkipWhileTest extends PHPUnit
+class SkipTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
 	 * @param iterable $it
-	 * @param callable $predicate
+	 * @param int $maxAmount
 	 * @return array
 	 */
-	public function skipWhile(iterable $it, callable $predicate){
+	public function skip(iterable $it, int $maxAmount){
 		return Stream::fromIterable($it)
-			->skipWhile($predicate)
+			->skip($maxAmount)
 			->toArray();
 	}
 
@@ -30,15 +30,15 @@ class SkipWhileTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::skipWhile
-	 * @dataProvider provideSkipWhileData
+	 * @cover \LazyCollection\Stream::skip
+	 * @dataProvider provideTakeData
 	 *
 	 * @param iterable $input
-	 * @param callable $predicate
+	 * @param int $maxAmount
 	 * @param iterable $expected
 	 */
-	public function properlySkipsElementWhileThePredicateIsFulfilled(iterable $input, callable $predicate, iterable $expected){
-		$result = $this->skipWhile($input, $predicate);
+	public function makeSureItSkipsUpToTheMaxAmount(iterable $input, int $maxAmount, iterable $expected){
+		$result = $this->skip($input, $maxAmount);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -47,17 +47,27 @@ class SkipWhileTest extends PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideSkipWhileData(){
+	public function provideTakeData(){
 		return [
 			[
-				[1, 2, 3, 4, 5, 6],
-				function($e){ return $e < 5; },
-				[5, 6],
+				[1, 2, 3, 4],
+				2,
+				[3, 4],
 			],
 			[
-				[2, 4, 3, 4],
-				function($e){ return $e % 2 === 0; },
-				[3, 4],
+				[],
+				2,
+				[],
+			],
+			[
+				[1],
+				3,
+				[],
+			],
+			[
+				[1,2,3,4],
+				4,
+				[],
 			],
 		];
 	}

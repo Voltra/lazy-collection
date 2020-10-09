@@ -1,6 +1,7 @@
 {
     "name": "voltra/lazy-collection",
     "description": "A library for manipulating collections the lazy way",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [

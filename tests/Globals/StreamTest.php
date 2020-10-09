@@ -10,11 +10,6 @@ use LazyCollection\Stream;
 
 class StreamTest extends \LazyCollection\Tests\PHPUnit
 {
-	//TODO: Test for error in factory calls
-	//TODO: Test for error in method calls
-	//TODO: Test method registration
-	//TODO: Test factory registration
-
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/

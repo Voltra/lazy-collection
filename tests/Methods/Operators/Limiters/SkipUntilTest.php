@@ -1,27 +1,28 @@
 <?php
 
 
-namespace LazyCollection\Tests\Methods\StatefulOperators\Limiters;
+namespace LazyCollection\Tests\Methods\Operators\Limiters;
 
 
 use LazyCollection\Stream;
+use LazyCollection\Tests\PHPUnit;
 
-class SubStreamTest extends \LazyCollection\Tests\PHPUnit
+class SkipUntilTest extends PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
 	/**
 	 * @param iterable $it
-	 * @param int $startIndex
-	 * @param int $endIndex
+	 * @param callable $predicate
 	 * @return array
 	 */
-	public function subStream(iterable $it, int $startIndex, int $endIndex){
+	public function skipUntil(iterable $it, callable $predicate){
 		return Stream::fromIterable($it)
-			->subStream($startIndex, $endIndex)
+			->skipUntil($predicate)
 			->toArray();
 	}
+
 
 
 	/******************************************************************************************************************\
@@ -29,16 +30,15 @@ class SubStreamTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::subStream
-	 * @dataProvider provideSubStreamData
+	 * @cover \LazyCollection\Stream::skipUntil
+	 * @dataProvider provideSkipUntilData
 	 *
 	 * @param iterable $input
-	 * @param int $startIndex
-	 * @param int $endIndex
+	 * @param callable $predicate
 	 * @param iterable $expected
 	 */
-	public function createProperSubstream(iterable $input, int $startIndex, int $endIndex, iterable $expected){
-		$result = $this->subStream($input, $startIndex, $endIndex);
+	public function properlySkipsElementUntilThePredicateIsFulfilled(iterable $input, callable $predicate, iterable $expected){
+		$result = $this->skipUntil($input, $predicate);
 		$this->assertEquals($expected, $result);
 	}
 
@@ -47,32 +47,17 @@ class SubStreamTest extends \LazyCollection\Tests\PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideSubStreamData(){
+	public function provideSkipUntilData(){
 		return [
 			[
-				[1, 2, 3, 4, 5, 6, 7, 8],
-				1, 3,
-				[2, 3],
+				[1, 2, 3, 4, 5, 6],
+				function($e){ return $e >= 5; },
+				[5, 6],
 			],
 			[
-				[1, 2, 3, 4],
-				3, 6,
-				[4],
-			],
-			[
-				[1, 2, 3, 4, 5, 6, 7, 8],
-				42, 69,
-				[],
-			],
-			[
-				[1, 2, 3, 4, 5, 6, 7, 8],
-				-1, 2,
-				[1, 2, 3],
-			],
-			[
-				[1, 2, 3, 4],
-				1, -1,
-				[],
+				[2, 4, 3, 4],
+				function($e){ return $e % 2 !== 0; },
+				[3, 4],
 			],
 		];
 	}
