@@ -28,7 +28,7 @@ class SortDescendingTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::sortDescending
+	 * @cover       \LazyCollection\Stream::sortDescending
 	 * @dataProvider provideSortDescendingPayload
 	 *
 	 * @param iterable $input

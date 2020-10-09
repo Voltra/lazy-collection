@@ -9,9 +9,6 @@ composer require voltra/lazy-collection
 ```
 
 
-
-
-
 ## Using the library
 
 //

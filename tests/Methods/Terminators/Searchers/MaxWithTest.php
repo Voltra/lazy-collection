@@ -22,7 +22,7 @@ class MaxWithTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::maxWith
+	 * @cover \LazyCollection\Stream::maxWith
 	 * @dataProvider provideMaxWithData
 	 *
 	 * @param iterable $input
@@ -36,16 +36,15 @@ class MaxWithTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::maxWith
+	 * @cover \LazyCollection\Stream::maxWith
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
 	 * @param callable $comparator
 	 */
 	public function properlyReturnsNullIfNoData(iterable $input, callable $comparator){
-		$expected = null;
 		$value = $this->maxWith($input, $comparator);
-		$this->assertEquals($expected, $value);
+		$this->assertNull($value);
 	}
 
 
@@ -59,6 +58,11 @@ class MaxWithTest extends \LazyCollection\Tests\PHPUnit
 				[1, 2, 3],
 				function($lhs, $rhs){ return $lhs <=> $rhs; },
 				3,
+			],
+			[
+				[1, 2, 3],
+				function($lhs, $rhs){ return $rhs <=> $lhs; },
+				1,
 			],
 		];
 	}

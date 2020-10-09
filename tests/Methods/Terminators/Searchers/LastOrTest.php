@@ -33,7 +33,7 @@ class LastOrTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastOr
+	 * @cover \LazyCollection\Stream::lastOr
 	 * @dataProvider provideSuccessfulLastOrData
 	 *
 	 * @param iterable $input
@@ -47,7 +47,7 @@ class LastOrTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastOr
+	 * @cover \LazyCollection\Stream::lastOr
 	 * @dataProvider provideFailureLastOrData
 	 *
 	 * @param iterable $input

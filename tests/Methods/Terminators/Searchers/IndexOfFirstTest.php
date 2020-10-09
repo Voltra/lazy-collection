@@ -22,7 +22,7 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @cover \LazyCollection\Stream::indexOfFirst
 	 * @dataProvider provideIndexOfFirstData
 	 *
 	 * @param iterable $input
@@ -36,7 +36,7 @@ class IndexOfFirstTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::indexOfFirst
+	 * @cover \LazyCollection\Stream::indexOfFirst
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input

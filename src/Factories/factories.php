@@ -33,7 +33,7 @@ Stream::registerFactory("range", function(int $start = 0, int $end = null, int $
 			};
 			$st = $step;
 
-			if(($start < $end && $step < 0) || ($start > $end && $step > 0)) {
+			if(($begin < $end_ && $step < 0) || ($begin > $end_ && $step > 0)) {
                 // Avoids using the wrong stepping + UX (can pass 1 instead of passing -1 to decrease by 1)
 				$st *= -1;
 			}

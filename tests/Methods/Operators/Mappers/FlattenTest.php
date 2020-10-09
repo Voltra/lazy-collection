@@ -26,7 +26,7 @@ class FlattenTest extends \LazyCollection\Tests\PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::flatten
+     * @cover \LazyCollection\Stream::flatten
      */
     public function emptyArrayStaysTheSame(){
         $result = $this->flatten([]);
@@ -35,7 +35,7 @@ class FlattenTest extends \LazyCollection\Tests\PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::flatten
+     * @cover \LazyCollection\Stream::flatten
      * @dataProvider provideRegularIterable
      *
      * @param array $input
@@ -48,7 +48,7 @@ class FlattenTest extends \LazyCollection\Tests\PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::flatten
+     * @cover \LazyCollection\Stream::flatten
      * @dataProvider provideAssociativeIterable
      *
      * @param iterable $expected
@@ -60,7 +60,7 @@ class FlattenTest extends \LazyCollection\Tests\PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::flatten
+     * @cover \LazyCollection\Stream::flatten
      * @dataProvider provideArrayOfAssociative
      *
      *

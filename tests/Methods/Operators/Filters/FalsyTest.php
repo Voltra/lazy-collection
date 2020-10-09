@@ -29,7 +29,7 @@ class FalsyTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::falsy
+	 * @cover \LazyCollection\Stream::falsy
 	 * @dataProvider provideFalsyCheck
 	 *
 	 * @param $value

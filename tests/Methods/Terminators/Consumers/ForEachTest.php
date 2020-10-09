@@ -27,7 +27,7 @@ class ForEachTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::forEach
+	 * @cover       \LazyCollection\Stream::forEach
 	 * @dataProvider provideArrays
 	 *
 	 * @param array $input

@@ -27,7 +27,7 @@ class SplitByTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::splitBy
+	 * @cover       \LazyCollection\Stream::splitBy
 	 * @dataProvider provideSplitData
 	 *
 	 * @param string $str
@@ -42,7 +42,7 @@ class SplitByTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::splitBy
+	 * @cover \LazyCollection\Stream::splitBy
 	 * @dataProvider provideNoOccurrences
 	 *
 	 * @param string $str

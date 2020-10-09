@@ -27,7 +27,7 @@ class SplitByRegexTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::splitByRegex
+	 * @cover       \LazyCollection\Stream::splitByRegex
 	 * @dataProvider provideSplitData
 	 *
 	 * @param string $str
@@ -42,7 +42,7 @@ class SplitByRegexTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::splitByRegex
+	 * @cover \LazyCollection\Stream::splitByRegex
 	 * @dataProvider provideNoOccurrences
 	 *
 	 * @param string $str

@@ -30,7 +30,7 @@ class SortByDescendingTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::sortByDescending
+	 * @cover \LazyCollection\Stream::sortByDescending
 	 * @dataProvider provideSortByDescendingPayload
 	 *
 	 * @param iterable $input

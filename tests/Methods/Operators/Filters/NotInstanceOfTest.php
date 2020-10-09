@@ -30,7 +30,7 @@ class NotInstanceOfTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::instanceOf
+	 * @cover \LazyCollection\Stream::instanceOf
 	 * @dataProvider provideClassInstanceCheck
 	 *
 	 * @param $value

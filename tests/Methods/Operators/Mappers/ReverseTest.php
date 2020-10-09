@@ -30,7 +30,7 @@ class ReverseTest extends PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::reverse
+     * @cover \LazyCollection\Stream::reverse
 	 * @dataProvider provideRegularIterables
      *
      * @param iterable $input
@@ -43,7 +43,7 @@ class ReverseTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::reverse
+	 * @cover \LazyCollection\Stream::reverse
 	 * @dataProvider provideAssociativeIterables
 	 *
 	 * @param iterable $expected

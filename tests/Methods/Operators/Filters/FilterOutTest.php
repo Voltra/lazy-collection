@@ -36,7 +36,7 @@ class FilterOutTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filterOut
+	 * @cover \LazyCollection\Stream::filterOut
 	 * @dataProvider provideDataSet
 	 *
 	 * @param array $input

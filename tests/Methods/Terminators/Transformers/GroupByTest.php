@@ -22,7 +22,7 @@ class GroupByTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::groupBy
+	 * @cover \LazyCollection\Stream::groupBy
 	 * @dataProvider provideGroupByData
 	 *
 	 * @param iterable $input

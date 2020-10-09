@@ -30,7 +30,7 @@ class ThenTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::then
+	 * @cover \LazyCollection\Stream::then
 	 * @dataProvider provideData
 	 *
 	 * @param iterable $first

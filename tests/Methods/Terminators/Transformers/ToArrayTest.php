@@ -11,7 +11,7 @@ class ToArrayTest extends PHPUnit
 {
     /**
      * @test
-     * @covers Stream::toArray
+     * @cover Stream::toArray
      * @dataProvider provideArrays
      *
      * @param array $expected

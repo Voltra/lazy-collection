@@ -23,7 +23,7 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::first
+	 * @cover       \LazyCollection\Stream::first
 	 * @dataProvider provideFirstData
 	 *
 	 * @param iterable $input
@@ -38,7 +38,7 @@ class FirstTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::first
+	 * @cover \LazyCollection\Stream::first
 	 * @dataProvider provideFirstFailData
 	 *
 	 * @param iterable $input

@@ -22,7 +22,7 @@ class ToJsonTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::toJSON
+	 * @cover \LazyCollection\Stream::toJSON
 	 * @dataProvider provideArrays
 	 *
 	 * @param array $arr

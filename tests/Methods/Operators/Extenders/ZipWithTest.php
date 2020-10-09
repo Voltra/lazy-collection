@@ -30,7 +30,7 @@ class ZipWithTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::zipWith
+	 * @cover \LazyCollection\Stream::zipWith
 	 * @dataProvider provideZipData
 	 *
 	 * @param iterable $lhs

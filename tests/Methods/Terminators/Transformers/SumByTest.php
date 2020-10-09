@@ -22,7 +22,7 @@ class SumByTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::sumBy
+	 * @cover \LazyCollection\Stream::sumBy
 	 * @dataProvider provideSumByData
 	 *
 	 * @param iterable $input

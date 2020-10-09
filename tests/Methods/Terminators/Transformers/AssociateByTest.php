@@ -23,7 +23,7 @@ class AssociateByTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::associateBy
+	 * @cover \LazyCollection\Stream::associateBy
 	 * @dataProvider provideAssociationByData
 	 *
 	 * @param iterable $it

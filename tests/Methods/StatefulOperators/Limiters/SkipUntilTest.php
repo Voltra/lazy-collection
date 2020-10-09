@@ -30,7 +30,7 @@ class SkipUntilTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::skipUntil
+	 * @cover \LazyCollection\Stream::skipUntil
 	 * @dataProvider provideSkipUntilData
 	 *
 	 * @param iterable $input

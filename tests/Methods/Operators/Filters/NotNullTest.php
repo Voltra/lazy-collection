@@ -30,7 +30,7 @@ class NotNullTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::notNull
+	 * @cover \LazyCollection\Stream::notNull
 	 * @dataProvider provideMaybeNull
 	 *
 	 * @param $value
@@ -44,7 +44,7 @@ class NotNullTest extends HelpersBasedTests
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::notNull
+	 * @cover \LazyCollection\Stream::notNull
 	 * @dataProvider provideArray
 	 *
 	 * @param array $input

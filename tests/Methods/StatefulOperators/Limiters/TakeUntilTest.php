@@ -30,7 +30,7 @@ class TakeUntilTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::takeUntil
+	 * @cover \LazyCollection\Stream::takeUntil
 	 * @dataProvider provideTakeUntilData
 	 *
 	 * @param iterable $input

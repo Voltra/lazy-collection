@@ -30,7 +30,7 @@ class SkipTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::skip
+	 * @cover \LazyCollection\Stream::skip
 	 * @dataProvider provideTakeData
 	 *
 	 * @param iterable $input

@@ -29,7 +29,7 @@ class UniqueTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::unique
+	 * @cover       \LazyCollection\Stream::unique
 	 * @dataProvider provideUniquePayload
 	 *
 	 * @param iterable $input

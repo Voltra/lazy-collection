@@ -29,7 +29,7 @@ class TruthyTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::truthy
+	 * @cover \LazyCollection\Stream::truthy
 	 * @dataProvider provideTruthyCheck
 	 *
 	 * @param $value

@@ -14,7 +14,7 @@ class HelpersTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::isIterable
+	 * @cover \LazyCollection\Helpers::isIterable
 	 * @dataProvider provideMixedIterableOrNot
 	 *
 	 * @param $value
@@ -26,7 +26,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::isAssoc
+	 * @cover \LazyCollection\Helpers::isAssoc
 	 * @dataProvider provideDifferentTypesOfArrays
 	 *
 	 * @param array $assocOrNot
@@ -38,7 +38,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::arrayFromIterable
+	 * @cover \LazyCollection\Helpers::arrayFromIterable
 	 * @dataProvider provideIterablesWithTheirArrayShape
 	 *
 	 * @param iterable $iterable
@@ -50,7 +50,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::toJSON
+	 * @cover \LazyCollection\Helpers::toJSON
 	 * @dataProvider provideArrayWithJson
 	 *
 	 * @param array $value
@@ -62,7 +62,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::notNull
+	 * @cover \LazyCollection\Helpers::notNull
 	 * @dataProvider provideMaybeNull
 	 *
 	 * @param $value
@@ -74,7 +74,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::falsy
+	 * @cover \LazyCollection\Helpers::falsy
 	 * @dataProvider provideFalsyCheck
 	 *
 	 * @param $value
@@ -86,7 +86,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::truthy
+	 * @cover \LazyCollection\Helpers::truthy
 	 * @dataProvider provideTruthyCheck
 	 *
 	 * @param $value
@@ -98,7 +98,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::instanceOf
+	 * @cover \LazyCollection\Helpers::instanceOf
 	 * @dataProvider provideClassInstanceCheck
 	 *
 	 * @param $object
@@ -111,7 +111,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::yes
+	 * @cover \LazyCollection\Helpers::yes
 	 * @dataProvider provideRandomTestArguments
 	 *
 	 * @param array $args
@@ -122,7 +122,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::no
+	 * @cover \LazyCollection\Helpers::no
 	 * @dataProvider provideRandomTestArguments
 	 *
 	 * @param array $args
@@ -133,7 +133,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::negate
+	 * @cover \LazyCollection\Helpers::negate
 	 * @dataProvider provideNegatePayload
 	 *
 	 * @param callable $predicate
@@ -148,7 +148,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::identity
+	 * @cover \LazyCollection\Helpers::identity
 	 * @dataProvider provideRandomTestData
 	 *
 	 * @param $value
@@ -159,7 +159,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Helpers::firstArg
+	 * @cover       \LazyCollection\Helpers::firstArg
 	 * @dataProvider provideArgumentsArray
 	 *
 	 *
@@ -171,7 +171,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::secondArg
+	 * @cover \LazyCollection\Helpers::secondArg
 	 * @dataProvider provideArgumentsArray
 	 *
 	 * @param mixed ...$args
@@ -182,7 +182,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::merge
+	 * @cover \LazyCollection\Helpers::merge
 	 * @dataProvider provideNonMergeableArrays
 	 *
 	 * @param array $defaults
@@ -194,7 +194,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::merge
+	 * @cover \LazyCollection\Helpers::merge
 	 * @dataProvider provideMergeableArrays
 	 *
 	 * @param array $defaults
@@ -207,7 +207,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::interpolate
+	 * @cover \LazyCollection\Helpers::interpolate
 	 * @dataProvider provideDataWithStringShape
 	 *
 	 * @param $value
@@ -219,7 +219,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::cmp
+	 * @cover \LazyCollection\Helpers::cmp
 	 * @dataProvider provideComparisonPayload
 	 *
 	 * @param $lhs
@@ -241,7 +241,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::uniqueBy
+	 * @cover \LazyCollection\Helpers::uniqueBy
 	 * @dataProvider provideUniqueByPayload
 	 *
 	 * @param array $input
@@ -255,7 +255,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::sortBy
+	 * @cover \LazyCollection\Helpers::sortBy
 	 * @dataProvider provideSortPayload
 	 *
 	 * @param array $input
@@ -268,7 +268,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::doSort
+	 * @cover \LazyCollection\Helpers::doSort
 	 * @dataProvider provideAssocSortPayload
 	 *
 	 * @param array $input
@@ -280,7 +280,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::doSort
+	 * @cover \LazyCollection\Helpers::doSort
 	 */
 	public function associativeInplaceSortCanSortDescending(){
 		$input = [1, 5, 2];
@@ -291,7 +291,7 @@ class HelpersTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Helpers::sortWith
+	 * @cover \LazyCollection\Helpers::sortWith
 	 * @dataProvider provideSortWithPayload
 	 *
 	 * @param array $input

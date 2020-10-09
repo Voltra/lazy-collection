@@ -24,7 +24,7 @@ class AnyTest extends CheckTest
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::any
+	 * @cover \LazyCollection\Stream::any
 	 * @dataProvider provideAnyData
 	 *
 	 * @param iterable $input

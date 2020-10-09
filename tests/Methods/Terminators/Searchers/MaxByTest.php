@@ -21,7 +21,7 @@ class MaxByTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::maxBy
+	 * @cover \LazyCollection\Stream::maxBy
 	 * @dataProvider provideMaxByData
 	 *
 	 * @param iterable $input
@@ -35,7 +35,7 @@ class MaxByTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::maxBy
+	 * @cover \LazyCollection\Stream::maxBy
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
@@ -43,8 +43,7 @@ class MaxByTest extends \LazyCollection\Tests\PHPUnit
 	 */
 	public function properlyReturnsNullIfEmpty(iterable $input, callable $mapper){
 		$value = $this->maxBy($input, $mapper);
-		$expected = null;
-		$this->assertEquals($expected, $value);
+		$this->assertNull($value);
 	}
 
 

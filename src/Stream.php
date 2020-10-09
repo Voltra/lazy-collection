@@ -188,15 +188,6 @@ class Stream implements IteratorAggregate {
 	}
 
 
-	protected static function nullInstance(): Stream{
-		$nullGen = static function(){
-			yield null;
-		};
-
-		return new static($nullGen());
-	}
-
-
 	/******************************************************************************************************************\
 	 * Extending
 	\******************************************************************************************************************/

@@ -23,7 +23,7 @@ class ReduceTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::reduce
+	 * @cover \LazyCollection\Stream::reduce
 	 * @dataProvider provideReduceData
 	 *
 	 * @param iterable $it
@@ -38,7 +38,7 @@ class ReduceTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::reduce
+	 * @cover \LazyCollection\Stream::reduce
 	 * @dataProvider provideReduceData
 	 *
 	 * @param array $arr

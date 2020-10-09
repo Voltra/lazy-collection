@@ -22,7 +22,7 @@ class UnzipTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::unzip
+	 * @cover \LazyCollection\Stream::unzip
 	 * @dataProvider provideUnzipData
 	 *
 	 * @param iterable $input

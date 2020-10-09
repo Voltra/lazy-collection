@@ -31,7 +31,7 @@ class FilterTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
+	 * @cover \LazyCollection\Stream::filter
 	 * @dataProvider provideFilterData
 	 *
 	 * @param array $input
@@ -46,7 +46,7 @@ class FilterTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filter
+	 * @cover \LazyCollection\Stream::filter
 	 * @dataProvider provideFilterData
 	 *
 	 * @param array $input
@@ -71,14 +71,19 @@ class FilterTest extends PHPUnit
 				[2],
 			],
 			[
-				[1,2,3,4],
+				[1, 2, 3, 4],
 				[Helpers::class, "yes"],
-				[1,2,3,4],
+				[1, 2, 3, 4],
 			],
 			[
-				[1,2,3,4],
+				[1, 2, 3, 4],
 				[Helpers::class, "no"],
 				[],
+			],
+			[
+				["key" => "value"],
+				[Helpers::class, "yes"],
+				["key" => "value"],
 			],
 		];
 	}

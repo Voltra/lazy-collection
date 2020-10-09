@@ -6,13 +6,13 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class MaxTest extends \LazyCollection\Tests\PHPUnit
+class MinTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function max(iterable $it){
-		return Stream::fromIterable($it)->max();
+	public function min(iterable $it){
+		return Stream::fromIterable($it)->min();
 	}
 
 
@@ -21,26 +21,26 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
-	 * @dataProvider provideMaxData
+	 * @cover \LazyCollection\Stream::min
+	 * @dataProvider provideMinData
 	 *
 	 * @param iterable $input
 	 * @param $expected
 	 */
-	public function properlyReturnMax(iterable $input, $expected){
-		$value = $this->max($input);
+	public function properlyReturnMin(iterable $input, $expected){
+		$value = $this->min($input);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
+	 * @cover \LazyCollection\Stream::min
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
 	 */
 	public function properlyReturnNullIfEmpty(iterable $input){
-		$value = $this->max($input);
+		$value = $this->min($input);
 		$this->assertNull($value);
 	}
 
@@ -48,11 +48,11 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideMaxData(){
+	public function provideMinData(){
 		return [
 			[
 				[1, 2, 3], // $input
-				3, // $expected
+				1, // $expected
 			],
 		];
 	}

@@ -31,7 +31,7 @@ class FilterNotTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::filterNot
+	 * @cover \LazyCollection\Stream::filterNot
 	 * @dataProvider provideDataSet
 	 *
 	 * @param iterable $it

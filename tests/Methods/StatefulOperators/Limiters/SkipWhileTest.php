@@ -30,7 +30,7 @@ class SkipWhileTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::skipWhile
+	 * @cover \LazyCollection\Stream::skipWhile
 	 * @dataProvider provideSkipWhileData
 	 *
 	 * @param iterable $input

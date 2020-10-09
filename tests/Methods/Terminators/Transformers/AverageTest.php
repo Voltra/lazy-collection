@@ -22,7 +22,7 @@ class AverageTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::average
+	 * @cover \LazyCollection\Stream::average
 	 * @dataProvider provideAvgData
 	 *
 	 * @param iterable $input

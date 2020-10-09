@@ -29,7 +29,7 @@ class SubStreamTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::subStream
+	 * @cover \LazyCollection\Stream::subStream
 	 * @dataProvider provideSubStreamData
 	 *
 	 * @param iterable $input

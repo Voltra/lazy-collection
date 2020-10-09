@@ -30,7 +30,7 @@ class MapFlattenedTest extends PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::mapFlattened
+     * @cover \LazyCollection\Stream::mapFlattened
      * @dataProvider provideChunkyArrays
      *
      * @param iterable $input
@@ -44,7 +44,7 @@ class MapFlattenedTest extends PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::mapFlattened
+	 * @cover \LazyCollection\Stream::mapFlattened
 	 * @dataProvider provideChunkyArrays
 	 *
 	 * @param iterable $input

@@ -22,7 +22,7 @@ class JoinTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::join
+	 * @cover \LazyCollection\Stream::join
 	 * @dataProvider provideJoinData
 	 *
 	 * @param iterable $input

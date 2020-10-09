@@ -24,7 +24,7 @@ class NoneTest extends CheckTest
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::none
+	 * @cover \LazyCollection\Stream::none
 	 * @dataProvider provideNoneData
 	 *
 	 * @param iterable $input

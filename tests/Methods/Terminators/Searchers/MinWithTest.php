@@ -6,14 +6,15 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class MaxTest extends \LazyCollection\Tests\PHPUnit
+class MinWithTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function max(iterable $it){
-		return Stream::fromIterable($it)->max();
+	public function minWith(iterable $it, callable $comparator){
+		return Stream::fromIterable($it)->minWith($comparator);
 	}
+
 
 
 	/******************************************************************************************************************\
@@ -21,38 +22,47 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
-	 * @dataProvider provideMaxData
+	 * @cover \LazyCollection\Stream::minWith
+	 * @dataProvider provideMinWithData
 	 *
 	 * @param iterable $input
+	 * @param callable $comparator
 	 * @param $expected
 	 */
-	public function properlyReturnMax(iterable $input, $expected){
-		$value = $this->max($input);
+	public function properlyComparesMin(iterable $input, callable $comparator, $expected){
+		$value = $this->minWith($input, $comparator);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
+	 * @cover \LazyCollection\Stream::minWith
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
+	 * @param callable $comparator
 	 */
-	public function properlyReturnNullIfEmpty(iterable $input){
-		$value = $this->max($input);
+	public function properlyReturnsNullIfNoData(iterable $input, callable $comparator){
+		$value = $this->minWith($input, $comparator);
 		$this->assertNull($value);
 	}
+
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideMaxData(){
+	public function provideMinWithData(){
 		return [
 			[
-				[1, 2, 3], // $input
-				3, // $expected
+				[1, 2, 3],
+				function($lhs, $rhs){ return $lhs <=> $rhs; },
+				1,
+			],
+			[
+				[1, 2, 3],
+				function($lhs, $rhs){ return $rhs <=> $lhs; },
+				3,
 			],
 		];
 	}
@@ -61,7 +71,7 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 		return [
 			[
 				[],
-				3,
+				function($lhs, $rhs){ return $lhs <=> $rhs; },
 			],
 		];
 	}

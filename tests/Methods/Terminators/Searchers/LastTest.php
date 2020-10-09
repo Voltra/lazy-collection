@@ -23,7 +23,7 @@ class LastTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::last
+	 * @cover       \LazyCollection\Stream::last
 	 * @dataProvider provideLastData
 	 *
 	 * @param iterable $input
@@ -38,7 +38,7 @@ class LastTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::last
+	 * @cover \LazyCollection\Stream::last
 	 * @dataProvider provideLastFailData
 	 *
 	 * @param iterable $input

@@ -28,7 +28,7 @@ class MapTest extends PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::map
+     * @cover \LazyCollection\Stream::map
      * @dataProvider provideMappingData
      *
      * @param array $data
@@ -42,7 +42,7 @@ class MapTest extends PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::map
+     * @cover \LazyCollection\Stream::map
      * @dataProvider provideMappingData
      *
      * @param array $data

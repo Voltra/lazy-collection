@@ -34,7 +34,7 @@ class LastIndexOfTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastIndexOf
+	 * @cover \LazyCollection\Stream::lastIndexOf
 	 * @dataProvider provideIndexOfData
 	 *
 	 * @param iterable $input
@@ -48,7 +48,7 @@ class LastIndexOfTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastIndexOf
+	 * @cover \LazyCollection\Stream::lastIndexOf
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input

@@ -29,7 +29,7 @@ class FlatMapTest extends \LazyCollection\Tests\PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::flatMap
+     * @cover \LazyCollection\Stream::flatMap
      * @dataProvider provideFlatMapData
      *
      * @param iterable $input
@@ -43,7 +43,7 @@ class FlatMapTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::flatMap
+	 * @cover \LazyCollection\Stream::flatMap
 	 * @dataProvider provideFlatMapData
 	 *
 	 * @param iterable $input

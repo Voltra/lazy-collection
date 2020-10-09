@@ -28,7 +28,7 @@ class UniqueByTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::uniqueBy
+	 * @cover \LazyCollection\Stream::uniqueBy
 	 * @dataProvider provideUniqueByPayload
 	 *
 	 * @param iterable $input

@@ -30,7 +30,7 @@ class TakeWhileTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::takeWhile
+	 * @cover \LazyCollection\Stream::takeWhile
 	 * @dataProvider provideTakeWhileData
 	 *
 	 * @param iterable $input

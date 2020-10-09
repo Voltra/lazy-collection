@@ -30,7 +30,7 @@ class SortWithTest extends HelpersBasedTests
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::sortWith
+	 * @cover \LazyCollection\Stream::sortWith
 	 * @dataProvider provideSortWithPayload
 	 *
 	 * @param iterable $input

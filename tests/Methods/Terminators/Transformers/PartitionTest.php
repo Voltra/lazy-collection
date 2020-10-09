@@ -22,7 +22,7 @@ class PartitionTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::partition
+	 * @cover \LazyCollection\Stream::partition
 	 * @dataProvider providePartitionData
 	 *
 	 * @param iterable $input

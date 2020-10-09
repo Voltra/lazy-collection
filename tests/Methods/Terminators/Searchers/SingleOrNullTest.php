@@ -6,13 +6,24 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class MaxTest extends \LazyCollection\Tests\PHPUnit
+class SingleOrNullTest extends \LazyCollection\Tests\PHPUnit
 {
+	/**
+	 * @var SingleTest
+	 */
+	protected $singleProvider;
+
+	public function __construct($name = null, array $data = [], $dataName = '')
+	{
+		parent::__construct($name, $data, $dataName);
+		$this->singleProvider = new SingleTest($name, $data, $dataName);
+	}
+
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function max(iterable $it){
-		return Stream::fromIterable($it)->max();
+	public function singleOrNull(iterable $it, callable $predicate = null){
+		return Stream::fromIterable($it)->singleOrNull($predicate);
 	}
 
 
@@ -21,47 +32,49 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
-	 * @dataProvider provideMaxData
+	 * @cover       \LazyCollection\Stream::singleOrNull
+	 * @dataProvider provideSingleOrNullData
 	 *
 	 * @param iterable $input
+	 * @param callable|null $predicate
 	 * @param $expected
 	 */
-	public function properlyReturnMax(iterable $input, $expected){
-		$value = $this->max($input);
+	public function properlyRetrieveTheSingleElement(iterable $input, ?callable $predicate, $expected){
+		$value = $this->singleOrNull($input, $predicate);
 		$this->assertEquals($expected, $value);
 	}
 
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
+	 * @cover       \LazyCollection\Stream::singleOrNull
 	 * @dataProvider provideFailureData
 	 *
 	 * @param iterable $input
+	 * @param callable|null $predicate
 	 */
-	public function properlyReturnNullIfEmpty(iterable $input){
-		$value = $this->max($input);
+	public function returnsDefaultOnFail(iterable $input, ?callable $predicate){
+		$value = $this->singleOrNull($input, $predicate);
 		$this->assertNull($value);
 	}
+
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideMaxData(){
-		return [
-			[
-				[1, 2, 3], // $input
-				3, // $expected
-			],
-		];
+	public function provideSingleOrNullData(){
+		return $this->singleProvider->provideSingleData();
 	}
 
 	public function provideFailureData(){
 		return [
 			[
-				[],
-				3,
+				[], // $input
+				null, // $predicate
+			],
+			[
+				[1, 3, 5],
+				function($x){ return $x % 2 === 0; },
 			],
 		];
 	}

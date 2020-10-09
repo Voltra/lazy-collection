@@ -30,7 +30,7 @@ class TakeTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::take
+	 * @cover \LazyCollection\Stream::take
 	 * @dataProvider provideTakeData
 	 *
 	 * @param iterable $input

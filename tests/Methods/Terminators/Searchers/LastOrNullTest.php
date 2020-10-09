@@ -33,7 +33,7 @@ class LastOrNullTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastOrNull
+	 * @cover \LazyCollection\Stream::lastOrNull
 	 * @dataProvider provideLastData
 	 *
 	 * @param iterable $input
@@ -47,7 +47,7 @@ class LastOrNullTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::lastOrNull
+	 * @cover \LazyCollection\Stream::lastOrNull
 	 * @dataProvider provideFailLastData
 	 *
 	 * @param iterable $input

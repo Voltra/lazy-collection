@@ -23,7 +23,7 @@ class AtIndexTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::last
+	 * @cover       \LazyCollection\Stream::last
 	 * @dataProvider provideAtIndexData
 	 *
 	 * @param iterable $input
@@ -38,7 +38,7 @@ class AtIndexTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::last
+	 * @cover       \LazyCollection\Stream::last
 	 * @dataProvider provideAtIndexFailData
 	 *
 	 * @param iterable $input

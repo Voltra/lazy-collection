@@ -11,7 +11,7 @@ use stdClass;
 class FromIterableTest extends PHPUnit {
 	/**
 	 * @test empty iterable makes empty stream
-	 * @covers \LazyCollection\Stream::fromIterable
+	 * @cover \LazyCollection\Stream::fromIterable
 	 */
 	public function emptyIterableMakesEmptyStream(){
 		$it = [];
@@ -25,7 +25,7 @@ class FromIterableTest extends PHPUnit {
 
 	/**
 	 * @test size of stream is size of iterable
-	 * @covers \LazyCollection\Stream::fromIterable
+	 * @cover \LazyCollection\Stream::fromIterable
 	 * @dataProvider provideIterableWithSize
 	 */
 	public function sizeOfStreamIsSizeOfIterable(iterable $it, int $size){
@@ -39,7 +39,7 @@ class FromIterableTest extends PHPUnit {
 
     /**
      * @test stream does not change keys
-     * @covers \LazyCollection\Stream::fromIterable
+     * @cover \LazyCollection\Stream::fromIterable
      * @dataProvider provideAssociative
      * @param array $arr
      */
@@ -55,7 +55,7 @@ class FromIterableTest extends PHPUnit {
 
     /**
      * @test can create from various iterables
-     * @covers \LazyCollection\Stream::fromIterable
+     * @cover \LazyCollection\Stream::fromIterable
      * @dataProvider provideDifferentIterables
      * @param iterable $it
      */

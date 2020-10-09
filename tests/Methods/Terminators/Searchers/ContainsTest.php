@@ -6,14 +6,15 @@ namespace LazyCollection\Tests\Methods\Terminators\Searchers;
 
 use LazyCollection\Stream;
 
-class MaxTest extends \LazyCollection\Tests\PHPUnit
+class ContainsTest extends \LazyCollection\Tests\PHPUnit
 {
 	/******************************************************************************************************************\
 	 * HELPERS
 	\******************************************************************************************************************/
-	public function max(iterable $it){
-		return Stream::fromIterable($it)->max();
+	public function contains_(iterable $it, $needle){
+		return Stream::fromIterable($it)->contains($needle);
 	}
+
 
 
 	/******************************************************************************************************************\
@@ -21,47 +22,44 @@ class MaxTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @cover \LazyCollection\Stream::max
-	 * @dataProvider provideMaxData
+	 * @cover \LazyCollection\Stream::contains
+	 * @dataProvider provideContainsData
 	 *
 	 * @param iterable $input
-	 * @param $expected
+	 * @param $needle
+	 * @param bool $expected
 	 */
-	public function properlyReturnMax(iterable $input, $expected){
-		$value = $this->max($input);
+	public function properlyChecksIfItContainsTheNeedle(iterable $input, $needle, bool $expected){
+		$value = $this->contains_($input, $needle);
 		$this->assertEquals($expected, $value);
 	}
 
-	/**
-	 * @test
-	 * @cover \LazyCollection\Stream::max
-	 * @dataProvider provideFailureData
-	 *
-	 * @param iterable $input
-	 */
-	public function properlyReturnNullIfEmpty(iterable $input){
-		$value = $this->max($input);
-		$this->assertNull($value);
-	}
 
 
 	/******************************************************************************************************************\
 	 * TEST PROVIDERS
 	\******************************************************************************************************************/
-	public function provideMaxData(){
+	public function provideContainsData(){
 		return [
 			[
 				[1, 2, 3], // $input
-				3, // $expected
+				1, // $needle
+				true, // $expected
 			],
-		];
-	}
-
-	public function provideFailureData(){
-		return [
+			[
+				[1, 2, 3],
+				4,
+				false,
+			],
 			[
 				[],
-				3,
+				42,
+				false,
+			],
+			[
+				[0],
+				"0",
+				false,
 			],
 		];
 	}

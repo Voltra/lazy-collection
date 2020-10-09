@@ -33,7 +33,7 @@ class FirstOrNullTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::firstOrNull
+	 * @cover \LazyCollection\Stream::firstOrNull
 	 * @dataProvider provideFirstData
 	 *
 	 * @param iterable $input
@@ -47,7 +47,7 @@ class FirstOrNullTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::firstOrNull
+	 * @cover \LazyCollection\Stream::firstOrNull
 	 * @dataProvider provideFailFirstData
 	 *
 	 * @param iterable $input

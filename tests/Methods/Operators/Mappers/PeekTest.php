@@ -29,7 +29,7 @@ class PeekTest extends \LazyCollection\Tests\PHPUnit
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers \LazyCollection\Stream::peek
+     * @cover \LazyCollection\Stream::peek
      * @dataProvider providePeekData
      *
      * @param array $expected
@@ -42,7 +42,7 @@ class PeekTest extends \LazyCollection\Tests\PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::peek
+     * @cover \LazyCollection\Stream::peek
      * @dataProvider providePeekData
      *
      * @param array $expected
@@ -72,6 +72,10 @@ class PeekTest extends \LazyCollection\Tests\PHPUnit
                 [],
                 function($e){ return 1 + $e; },
             ],
+			[
+				["key" => "value"],
+				function($value, $key){ return "[$key] : $value"; },
+			],
         ];
     }
 }

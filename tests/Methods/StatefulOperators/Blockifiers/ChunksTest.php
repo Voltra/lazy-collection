@@ -30,7 +30,7 @@ class ChunksTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::chunks
+	 * @cover \LazyCollection\Stream::chunks
 	 * @dataProvider provideChunkyArrays
 	 *
 	 * @param iterable $input

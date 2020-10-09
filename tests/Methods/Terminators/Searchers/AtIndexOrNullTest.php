@@ -33,7 +33,7 @@ class AtIndexOrNullTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::atIndexOrNull
+	 * @cover       \LazyCollection\Stream::atIndexOrNull
 	 * @dataProvider provideAtIndexData
 	 *
 	 * @param iterable $input
@@ -47,7 +47,7 @@ class AtIndexOrNullTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::atIndexOrNull
+	 * @cover       \LazyCollection\Stream::atIndexOrNull
 	 * @dataProvider provideFailAtIndexOrNullData
 	 *
 	 * @param iterable $input

@@ -7,12 +7,15 @@ use LazyCollection\Tests\PHPUnit;
 
 class RangeTest extends PHPUnit
 {
+	//TODO: ensure wrong way stepping is tested
+	//TODO: ensure infinite range is tested
+
     /******************************************************************************************************************\
      * TESTS
     \******************************************************************************************************************/
     /**
      * @test
-     * @covers Stream::range
+     * @cover Stream::range
      */
     public function emptyRangeMakesAnEmptyStream(){
         $stream = Stream::range(0, 0);
@@ -21,7 +24,7 @@ class RangeTest extends PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::range
+     * @cover \LazyCollection\Stream::range
      * @dataProvider provideIncreasingRange
      * @param array $testData
      */
@@ -34,7 +37,7 @@ class RangeTest extends PHPUnit
 
     /**
      * @test
-     * @covers \LazyCollection\Stream::range
+     * @cover \LazyCollection\Stream::range
      * @dataProvider provideDecreasingRange
      *
      * @param array $testData
@@ -46,6 +49,19 @@ class RangeTest extends PHPUnit
         $this->assertEquals($expected, $value);
     }
 
+	/**
+	 * @test
+	 * @cover \LazyCollection\Stream::range
+	 */
+    public function noEndMeansInfiniteRange(){
+    	$skip = 200;
+    	$expected = 2;
+
+    	$stream = Stream::range(0, null, 1);
+    	$value = $stream->skip($skip)->take($expected)->toArray();
+    	$this->assertCount($expected, $value);
+	}
+
     /******************************************************************************************************************\
      * TEST PROVIDERS
     \******************************************************************************************************************/
@@ -53,17 +69,25 @@ class RangeTest extends PHPUnit
         return [
             [ // Test Bucket #0
                 [0, 2, 1, [0,1]],
-                [0, 4, 1, [0,1,2,3]],
             ],
+			[
+				[0, 4, -1, [0,1,2,3]],
+			],
             [ // Test Bucket #1
                 [0, 4, 2, [0,2]],
-                [0, 8, 2, [0,2,4,6]],
             ],
+			[
+				[0, 8, 2, [0,2,4,6]],
+			],
             [ // Test Bucket #2
                 [0, 7, 3, [0,3,6]],
-                [0, 9, 3, [0,3,6]],
-                [0, 16, 3, [0,3,6,9,12,15]],
             ],
+			[
+				[0, 9, 3, [0,3,6]],
+			],
+			[
+				[0, 16, 3, [0,3,6,9,12,15]],
+			],
         ];
     }
 
@@ -71,17 +95,25 @@ class RangeTest extends PHPUnit
         return [
             [ // Test Bucket #0
                 [2, 0, -1, [2, 1]],
-                [4, 0, 1, [4, 3, 2, 1]],
             ],
+			[
+				[4, 0, 1, [4, 3, 2, 1]],
+			],
             [ // Test Bucket #1
                 [4, 0, -2, [4, 2]],
-                [8, 0, 2, [8, 6, 4, 2]],
             ],
+			[
+				[8, 0, 2, [8, 6, 4, 2]],
+			],
             [ // Test Bucket #2
                 [7, 0, -3, [7, 4, 1]],
-                [9, 0, 3, [9, 6, 3]],
-                [16, 0, -3, [16, 13, 10, 7, 4, 1]],
             ],
+			[
+				[9, 0, 3, [9, 6, 3]],
+			],
+			[
+				[16, 0, -3, [16, 13, 10, 7, 4, 1]],
+			],
         ];
     }
 }

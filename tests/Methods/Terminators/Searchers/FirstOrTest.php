@@ -33,7 +33,7 @@ class FirstOrTest extends \LazyCollection\Tests\PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::firstOr
+	 * @cover \LazyCollection\Stream::firstOr
 	 * @dataProvider provideSuccessfulFirstOrData
 	 *
 	 * @param iterable $input
@@ -47,7 +47,7 @@ class FirstOrTest extends \LazyCollection\Tests\PHPUnit
 
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::firstOr
+	 * @cover \LazyCollection\Stream::firstOr
 	 * @dataProvider provideFailureFirstOrData
 	 *
 	 * @param iterable $input

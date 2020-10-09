@@ -24,7 +24,7 @@ class NotAllTest extends CheckTest
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers \LazyCollection\Stream::notAll
+	 * @cover \LazyCollection\Stream::notAll
 	 * @dataProvider provideNotAllData
 	 *
 	 * @param iterable $input

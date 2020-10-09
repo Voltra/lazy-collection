@@ -29,7 +29,7 @@ class SortTest extends PHPUnit
 	\******************************************************************************************************************/
 	/**
 	 * @test
-	 * @covers       \LazyCollection\Stream::sort
+	 * @cover       \LazyCollection\Stream::sort
 	 * @dataProvider provideSortPayload
 	 *
 	 * @param iterable $input
