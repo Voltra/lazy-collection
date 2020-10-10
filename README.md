@@ -12,9 +12,11 @@ For more info, consult the [official documentation](https://voltra.github.io/laz
 
 ## Using the library
 
+`use \LazyCollection\Stream;`
+
 There are two ways you can use this library :
 
-* using the factory functions
+* using the factory functions (in the `LazyCollection` namespace)
 * using the factory static methods
 
 ### Functions
@@ -41,10 +43,39 @@ There are a few functions predefined for you :
 
 `Stream` provides utilities to add methods and factories :
 
-* `Stream::registerMethod($name, $method)`
-* `Stream::registerFactory($name, $factory)`
+* `Stream::registerMethod($name, $method)` which can return an instance of `Stream` or something else
+* `Stream::registerFactory($name, $factory)` which should return an instance of `Stream`
 
+```php
+use \LazyCollection\Stream;
 
+Stream::registerMethod("mapTo42", static function(){
+    /**
+     * @var Stream $this
+     */
+    return $this->map(static function(){ return 42; });
+});
+
+Stream::fromIterable([1, 2, 3])
+    ->mapTo42()
+    ->toArray(); //-> [42, 42, 42]
+
+Stream::registerFactory("answerToLife", function(){
+    $gen = (static function(){
+        yield 42;
+    })();
+    
+    return new static($gen, false); // new static($generator, $isAssociative)
+    
+    /*
+    Alternatively:
+    
+    return static:fromIterable([42]);
+    */
+});
+
+Stream::answerToLife()->toArray(); //-> [42]
+```
 
 ## Why use this library
 
