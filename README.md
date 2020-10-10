@@ -12,7 +12,7 @@ For more info, consult the [official documentation](https://voltra.github.io/laz
 
 ## Using the library
 
-`use \LazyCollection\Stream;`
+`use LazyCollection\Stream;`
 
 There are two ways you can use this library :
 
@@ -47,7 +47,7 @@ There are a few functions predefined for you :
 * `Stream::registerFactory($name, $factory)` which should return an instance of `Stream`
 
 ```php
-use \LazyCollection\Stream;
+use LazyCollection\Stream;
 
 Stream::registerMethod("mapTo42", static function(){
     /**
