@@ -1,6 +1,4 @@
 <phpunit
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.pupunit.de/7.5/phpunit.xsd"
     stopOnError="true"
     stopOnFailure="true"
     stopOnIncomplete="true"
@@ -12,8 +10,33 @@
     verbose="true"
 >
     <testsuites>
-        <!-- <testsuite name="dir">
-            <directory>tests/dir</directory>
-        </testsuite> -->
+        <testsuite name="globals and helpers">
+            <directory>./tests/Globals/</directory>
+        </testsuite>
+
+        <testsuite name="factories">
+            <directory>./tests/Factories/</directory>
+        </testsuite>
+
+        <testsuite name="operators">
+            <directory>./tests/Methods/Operators/</directory>
+        </testsuite>
+
+        <testsuite name="stateful operators">
+            <directory>./tests/Methods/StatefulOperators/</directory>
+        </testsuite>
+
+        <testsuite name="terminators">
+            <directory>./tests/Methods/Terminators/</directory>
+        </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src/</directory>
+            <exclude>
+                <file>./src/functions.php</file>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>

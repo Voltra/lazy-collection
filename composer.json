@@ -1,6 +1,7 @@
 {
     "name": "voltra/lazy-collection",
     "description": "A library for manipulating collections the lazy way",
+    "version": "1.0.0",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,10 +10,31 @@
             "email": "ludwig.guerin.98@gmx.fr"
         }
     ],
-    "require": {},
+    "require": {
+        "ext-json": "*",
+        "php": ">=7.1.11"
+    },
     "require-dev": {
         "phpunit/phpunit": "^7.5",
         "php-mock/php-mock": "^2.2",
-        "php-mock/php-mock-phpunit": "^2.6"
+        "php-mock/php-mock-phpunit": "^2.6",
+        "jasny/phpunit-extension": "^0.2.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LazyCollection\\": "src"
+        },
+        "files": [
+            "src/Factories/factories.php",
+            "src/Methods/operators.php",
+            "src/Methods/terminators.php",
+            "src/Methods/statefulOperators.php",
+            "src/functions.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LazyCollection\\Tests\\": "tests"
+        }
     }
 }
